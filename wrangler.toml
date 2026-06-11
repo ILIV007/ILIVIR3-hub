@@ -1,0 +1,6 @@
+name = "ilivir3-hub"
+main = "dist/index.html"
+compatibility_date = "2024-01-01"
+
+[site]
+bucket = "./dist"
