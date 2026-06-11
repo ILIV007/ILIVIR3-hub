@@ -20,22 +20,18 @@ export function useMouseParallax(): MouseState {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize -1 to 1
       mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1
       mouseRef.current.y = -(e.clientY / window.innerHeight) * 2 + 1
     }
 
     let rafId: number
     const animate = () => {
-      // Smooth damping (Layer 1: Parallax)
       smoothRef.current.x += (mouseRef.current.x - smoothRef.current.x) * 0.05
       smoothRef.current.y += (mouseRef.current.y - smoothRef.current.y) * 0.05
 
-      // Parallax values (different depths for different layers)
       const parallaxX = smoothRef.current.x * 3
       const parallaxY = smoothRef.current.y * 3
 
-      // World position for light tracking
       const worldX = smoothRef.current.x * 5
       const worldY = smoothRef.current.y * 5
 

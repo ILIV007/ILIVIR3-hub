@@ -1,4 +1,3 @@
-import { useLang } from '../../context/LangContext'
 import { Card } from '../ui/Card'
 import { Brain, Zap, Shield } from 'lucide-react'
 
@@ -24,8 +23,6 @@ const systems = [
 ]
 
 export function AISystems() {
-  const { t } = useLang()
-
   return (
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

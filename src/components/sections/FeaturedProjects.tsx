@@ -1,12 +1,9 @@
-import { useLang } from '../../context/LangContext'
 import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { projects } from '../../data/projects'
 import { ExternalLink, Github, Send, Bot, TrendingUp } from 'lucide-react'
 
 export function FeaturedProjects() {
-  const { t } = useLang()
-
   return (
     <section className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

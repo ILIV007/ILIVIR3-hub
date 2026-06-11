@@ -1,13 +1,11 @@
 import { useRef, useMemo } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useMouseParallax } from '../../hooks/useMouseParallax'
 
 function CoreRings() {
   const groupRef = useRef<THREE.Group>(null)
-  const { mouse } = useMouseParallax()
 
-  // FIX #5: torus args adjusted for better fit
   const rings = useMemo(() => [
     { radius: 1.8, tube: 0.012, color: '#7c3aed', speed: 0.3, axis: [0, 1, 0] as [number, number, number] },
     { radius: 1.5, tube: 0.01, color: '#06b6d4', speed: -0.5, axis: [1, 0, 0] as [number, number, number] },
@@ -15,7 +13,7 @@ function CoreRings() {
     { radius: 0.9, tube: 0.006, color: '#7c3aed', speed: -0.6, axis: [1, 1, 0] as [number, number, number] },
   ], [])
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     if (!groupRef.current) return
     groupRef.current.children.forEach((child, i) => {
       const mesh = child as THREE.Mesh
@@ -38,18 +36,14 @@ function CoreRings() {
 
 function CoreSphere() {
   const meshRef = useRef<THREE.Mesh>(null)
-  const { mouse } = useMouseParallax()
+  const { x, y } = useMouseParallax()
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     if (!meshRef.current) return
-    // Idle: gentle pulse
-    const pulse = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.08
+    const pulse = 1 + Math.sin(Date.now() * 0.003) * 0.08
     meshRef.current.scale.setScalar(pulse)
-
-    // FIX: Camera follow effect via subtle position shift (not model rotation)
-    // The model stays fixed, only position shifts slightly with mouse
-    meshRef.current.position.x = mouse.x * 0.05
-    meshRef.current.position.y = mouse.y * 0.05
+    meshRef.current.position.x = x * 0.05
+    meshRef.current.position.y = y * 0.05
   })
 
   return (
@@ -64,12 +58,11 @@ function LightTracker() {
   const lightRef = useRef<THREE.PointLight>(null)
   const { mouseWorld } = useMouseParallax()
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     if (!lightRef.current) return
-    // FIX: Light follows mouse with smooth damping (virtual light tracking)
     lightRef.current.position.x += (mouseWorld.x * 3 - lightRef.current.position.x) * 0.05
     lightRef.current.position.y += (mouseWorld.y * 3 - lightRef.current.position.y) * 0.05
-    lightRef.current.position.z = 2 + Math.sin(state.clock.elapsedTime) * 0.5
+    lightRef.current.position.z = 2 + Math.sin(Date.now() * 0.001) * 0.5
   })
 
   return (
@@ -89,7 +82,7 @@ export function AICore() {
   return (
     <group
       position={[
-        parallax.x * 0.3 + 0.3, // FIX: Shift 20px (~0.3 units) to the right
+        parallax.x * 0.3 + 0.3,
         parallax.y * 0.3,
         0
       ]}
