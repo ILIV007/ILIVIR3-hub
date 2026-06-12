@@ -98,7 +98,7 @@ export function Void({ mousePos }: VoidProps) {
   return (
     <group ref={groupRef}>
       <mesh ref={knotRef}>
-        <torusKnotGeometry args={[0.6, 0.15, 128, 16, 2, 3]} />
+        <torusKnotGeometry args={[0.65, 0.17, 128, 16, 2, 3]} />
         <meshStandardMaterial
           color="#1a0b2e"
           emissive="#4c1d95"
@@ -115,7 +115,7 @@ export function Void({ mousePos }: VoidProps) {
       </mesh>
 
       <mesh ref={ring1Ref}>
-        <torusGeometry args={[0.85, 0.03, 16, 100]} />
+        <torusGeometry args={[1, 0.035, 16, 100]} />
         <meshStandardMaterial
           color="#a855f7"
           emissive="#a855f7"

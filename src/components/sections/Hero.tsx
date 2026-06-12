@@ -14,17 +14,17 @@ export function Hero() {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900" />
 
-      {/* Void Model - Left Background (Fixed position and size) */}
-      <div className="hidden lg:block absolute left-[0%] top-0 w-[30vw] h-screen z-0 pointer-events-none">
-        <Canvas camera={{ position: [0, 0, 4], fov: 50 }} dpr={[1, 2]}>
-          <ambientLight intensity={0.6} />
+      {/* Void Model - Left Background (Larger size, moved left) */}
+      <div className="hidden lg:block absolute left-[-4%] top-0 w-[45vw] h-screen z-0 pointer-events-none">
+        <Canvas camera={{ position: [0, 0, 5], fov: 45 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
+          <ambientLight intensity={0.7} />
           <Void />
         </Canvas>
       </div>
 
-      {/* AICore Model - Right Background (Fixed position and size) */}
-      <div className="hidden lg:block absolute right-[0%] top-0 w-[30vw] h-screen z-0 pointer-events-none">
-        <Canvas camera={{ position: [0, 0, 4], fov: 50 }} dpr={[1, 2]}>
+      {/* AICore Model - Right Background (Fixed clipping with better FOV) */}
+      <div className="hidden lg:block absolute right-[-3%] top-0 w-[40vw] h-screen z-0 pointer-events-none overflow-hidden">
+        <Canvas camera={{ position: [0, 0, 7], fov: 35 }} dpr={[1, 2]} gl={{ antialias: true, alpha: true }}>
           <ambientLight intensity={0.6} />
           <AICore />
         </Canvas>
