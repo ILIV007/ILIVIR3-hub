@@ -1,6 +1,3 @@
 name = "ilivir3-hub"
-main = "dist/index.html"
-compatibility_date = "2024-01-01"
-
-[site]
-bucket = "./dist"
+compatibility_date = "2026-06-10"
+pages_build_output_dir = "dist"

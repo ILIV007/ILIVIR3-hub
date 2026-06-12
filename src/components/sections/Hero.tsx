@@ -1,116 +1,79 @@
-import { Suspense, lazy } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { useLang } from '../../context/LangContext'
-import { Button } from '../ui/Button'
-import { Github, Send, FolderOpen, Bot, TrendingUp } from 'lucide-react'
-
-const Void = lazy(() => import('../three/Void').then(m => ({ default: m.Void })))
-const AICore = lazy(() => import('../three/AICore').then(m => ({ default: m.AICore })))
-
-function SceneContainer({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div
-      className={`relative w-full ${className}`}
-      style={{
-        aspectRatio: '1/1',
-        maxWidth: '500px',
-        margin: '0 auto',
-        height: '85vh',
-        minHeight: '600px',
-      }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 5.5], fov: 50 }}
-        style={{ width: '100%', height: '100%' }}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <Suspense fallback={null}>
-          {children}
-        </Suspense>
-      </Canvas>
-    </div>
-  )
-}
+import { motion } from "motion/react";
+import { AICore } from "@components/three/AICore";
+import { Void } from "@components/three/Void";
+import { Button } from "@components/ui/Button";
+import { ArrowRight, Github } from "lucide-react";
+import { useLang } from "@context/LangContext";
 
 export function Hero() {
-  const { t } = useLang()
+  const { t } = useLang();
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-iliv-purple/10 via-transparent to-transparent" />
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900" />
+
+      {/* Void Model - Left Background (Positioned with safe bounds) */}
+      <div className="hidden lg:block absolute left-[-5%] top-0 w-[40vw] h-screen z-0 pointer-events-none overflow-hidden">
+        <div className="w-full h-full transform scale-110 origin-center">
+          <Void />
+        </div>
       </div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
-          <div className="hidden lg:block lg:col-span-3">
-            <SceneContainer>
-              <Void />
-            </SceneContainer>
-          </div>
-
-          <div className="col-span-1 lg:col-span-6 text-center z-10">
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-gradient animate-fade-in-up">
-                {t('hero.title')}
-              </h1>
-              <p className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                {t('hero.subtitle')}
-              </p>
-
-              {/* Main CTAs */}
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-4 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <Button href="/projects" variant="primary">
-                  <FolderOpen className="w-4 h-4 mr-2" />
-                  پروژه‌ها
-                </Button>
-                <Button href="https://github.com/ILIV007" variant="secondary">
-                  <Github className="w-4 h-4 mr-2" />
-                  GitHub
-                </Button>
-                <Button href="https://t.me/ILIVIR3" variant="outline">
-                  <Send className="w-4 h-4 mr-2" />
-                  @ILIVIR3
-                </Button>
-              </div>
-
-              {/* Bot Links Row */}
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-                <a
-                  href="https://t.me/ivai_llm_bot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-iliv-purple/20 text-iliv-purple border border-iliv-purple/30 hover:bg-iliv-purple/30 transition-all duration-300"
-                >
-                  <Bot className="w-4 h-4" />
-                  @ivai_llm_bot
-                </a>
-                <a
-                  href="https://t.me/tradeagentiv"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium bg-iliv-cyan/20 text-iliv-cyan border border-iliv-cyan/30 hover:bg-iliv-cyan/30 transition-all duration-300"
-                >
-                  <TrendingUp className="w-4 h-4" />
-                  @tradeagentiv
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="hidden lg:block lg:col-span-3">
-            <SceneContainer>
-              <AICore />
-            </SceneContainer>
-          </div>
+      {/* AICore Model - Right Background (Positioned with safe bounds) */}
+      <div className="hidden lg:block absolute right-[-5%] top-0 w-[40vw] h-screen z-0 pointer-events-none overflow-hidden">
+        <div className="w-full h-full transform scale-110 origin-center">
+          <AICore />
         </div>
+      </div>
 
-        <div className="lg:hidden mt-8">
-          <SceneContainer className="mx-auto">
-            <AICore />
-          </SceneContainer>
+      {/* Center Content - Top layer */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 py-20 z-10">
+        <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 tracking-tight bg-gradient-to-r from-accent-cyan via-accent-purple to-accent-cyan bg-clip-text text-transparent animate-gradient">
+                ILIVIR3
+              </h1>
+              <p className="text-lg sm:text-xl text-accent-cyan font-mono mb-2">
+                {t("Tech Command Center", "مرکز فرماندهی تکنولوژی")}
+              </p>
+              <p className="text-navy-400 text-sm sm:text-base max-w-lg mx-auto mb-8 leading-relaxed">
+                {t(
+                  "AI Systems, Open Source & Experimental Tech",
+                  "سیستم‌های AI، متن‌باز و تکنولوژی آزمایشی"
+                )}
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3"
+            >
+              <Button href="#projects" size="lg" icon={<ArrowRight className="w-5 h-5" />}>
+                {t("Explore Projects", "مشاهده پروژه‌ها")}
+              </Button>
+              <Button variant="outline" href="https://github.com/ILIV007" size="lg" icon={<Github className="w-5 h-5" />}>
+                {t("GitHub", "گیت‌هاب")}
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1 }}
+              className="mt-12 text-navy-600 text-xs font-mono"
+            >
+              <span className="inline-block w-2 h-2 rounded-full bg-accent-cyan mr-2 animate-pulse" />
+              {t("Built by ILIV007", "ساخته‌شده توسط ILIV007")}
+            </motion.div>
         </div>
       </div>
     </section>
-  )
+  );
 }

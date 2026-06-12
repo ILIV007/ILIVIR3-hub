@@ -1,16 +1,13 @@
-import { useScroll } from '../../hooks/useScroll'
+import { motion, useScroll, useSpring } from "motion/react";
 
 export function ScrollProgress() {
-  const scrollY = useScroll()
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight
-  const progress = docHeight > 0 ? (scrollY / docHeight) * 100 : 0
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-white/5">
-      <div
-        className="h-full bg-gradient-to-r from-iliv-purple via-iliv-cyan to-iliv-pink transition-all duration-150"
-        style={{ width: `${progress}%` }}
-      />
-    </div>
-  )
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-accent-cyan to-accent-purple origin-left z-[60]"
+      style={{ scaleX }}
+    />
+  );
 }

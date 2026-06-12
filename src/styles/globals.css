@@ -1,22 +1,47 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-deep-navy: #050816;
+  --color-navy-950: #0a0f1e;
+  --color-navy-900: #0f1528;
+  --color-navy-800: #141c36;
+  --color-navy-700: #1a2444;
+  --color-navy-600: #2a3655;
+  --color-navy-500: #3a4a6a;
+  --color-navy-400: #5a6a8a;
+  --color-navy-300: #8a9aaa;
+  --color-navy-200: #b0c0d0;
+  --color-navy-100: #d0e0f0;
+  --color-accent-cyan: #00e5ff;
+  --color-accent-purple: #a855f7;
+  --color-accent-cyan-dim: rgba(0, 229, 255, 0.08);
+  --color-glow-purple-dim: rgba(168, 85, 247, 0.08);
+}
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
   body {
-    @apply bg-iliv-dark text-white antialiased;
-    font-family: 'Vazirmatn', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--color-deep-navy);
+    color: white;
   }
+  code, pre { font-family: 'JetBrains Mono', monospace; }
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-iliv-purple via-iliv-cyan to-iliv-pink;
+  .gradient-text {
+    background: linear-gradient(135deg, #00e5ff 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .glass {
-    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  .bg-grid-subtle {
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .bg-radial-accent {
+    background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 229, 255, 0.08), transparent);
   }
 }

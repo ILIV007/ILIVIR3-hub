@@ -1,97 +1,231 @@
-import { useRef, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
-import * as THREE from 'three'
-import { useMouseParallax } from '../../hooks/useMouseParallax'
+import { useRef, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
 
-function CoreRings() {
-  const groupRef = useRef<THREE.Group>(null)
+function Core() {
+  const coreRef = useRef<THREE.Mesh>(null);
+  const innerShellRef = useRef<THREE.Mesh>(null);
+  const outerShellRef = useRef<THREE.Mesh>(null);
+  const ring1Ref = useRef<THREE.Mesh>(null);
+  const ring2Ref = useRef<THREE.Mesh>(null);
+  const ring3Ref = useRef<THREE.Mesh>(null);
+  const nodesRef = useRef<THREE.Group>(null);
+  const streamsRef = useRef<THREE.LineSegments>(null);
+  const particlesRef = useRef<THREE.Points>(null);
 
-  const rings = useMemo(() => [
-    { radius: 1.8, tube: 0.012, color: '#7c3aed', speed: 0.3, axis: [0, 1, 0] as [number, number, number] },
-    { radius: 1.5, tube: 0.01, color: '#06b6d4', speed: -0.5, axis: [1, 0, 0] as [number, number, number] },
-    { radius: 1.2, tube: 0.008, color: '#ec4899', speed: 0.4, axis: [0, 0, 1] as [number, number, number] },
-    { radius: 0.9, tube: 0.006, color: '#7c3aed', speed: -0.6, axis: [1, 1, 0] as [number, number, number] },
-  ], [])
+  const nodesData = useMemo(() => {
+    const nodes: { angle: number; radius: number; speed: number; y: number }[] = [];
+    const rings = [
+      { r: 1.2, y: 0, speed: 0.8 },
+      { r: 1.5, y: 0.2, speed: -0.5 },
+      { r: 1.8, y: -0.15, speed: 0.3 },
+    ];
+    rings.forEach((ring) => {
+      for (let i = 0; i < 4; i++) {
+        nodes.push({
+          angle: (i / 4) * Math.PI * 2,
+          radius: ring.r,
+          speed: ring.speed,
+          y: ring.y,
+        });
+      }
+    });
+    return nodes;
+  }, []);
 
-  useFrame((_, delta) => {
-    if (!groupRef.current) return
-    groupRef.current.children.forEach((child, i) => {
-      const mesh = child as THREE.Mesh
-      mesh.rotation.x += delta * rings[i].speed * 0.5
-      mesh.rotation.y += delta * rings[i].speed * 0.3
-    })
-  })
+  const streamGeo = useMemo(() => {
+    const positions: number[] = [];
+    for (let i = 0; i < nodesData.length; i++) {
+      for (let j = i + 1; j < nodesData.length; j++) {
+        if (Math.random() > 0.7) {
+          const n1 = nodesData[i];
+          const n2 = nodesData[j];
+          positions.push(
+            Math.cos(n1.angle) * n1.radius, n1.y, Math.sin(n1.angle) * n1.radius,
+            Math.cos(n2.angle) * n2.radius, n2.y, Math.sin(n2.angle) * n2.radius
+          );
+        }
+      }
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    return geo;
+  }, [nodesData]);
+
+  const particleGeo = useMemo(() => {
+    const count = 200;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const r = 0.8 + Math.random() * 1.0;
+      const y = (Math.random() - 0.5) * 0.6;
+      pos[i * 3] = Math.cos(angle) * r;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = Math.sin(angle) * r;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    return geo;
+  }, []);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+
+    if (coreRef.current) {
+      coreRef.current.rotation.y = t * 0.3;
+      coreRef.current.rotation.x = Math.sin(t * 0.2) * 0.05;
+      const pulse = 1 + Math.sin(t * 2) * 0.03;
+      coreRef.current.scale.set(pulse, pulse, pulse);
+    }
+
+    if (innerShellRef.current) {
+      innerShellRef.current.rotation.y = -t * 0.15;
+      innerShellRef.current.rotation.x = Math.sin(t * 0.1) * 0.02;
+    }
+    if (outerShellRef.current) {
+      outerShellRef.current.rotation.y = t * 0.08;
+      outerShellRef.current.rotation.z = Math.cos(t * 0.12) * 0.03;
+    }
+
+    if (ring1Ref.current) {
+      ring1Ref.current.rotation.z = t * 0.5;
+    }
+    if (ring2Ref.current) {
+      ring2Ref.current.rotation.x = t * 0.35;
+    }
+    if (ring3Ref.current) {
+      ring3Ref.current.rotation.y = t * 0.25;
+    }
+
+    if (nodesRef.current) {
+      nodesRef.current.children.forEach((child, i) => {
+        const node = nodesData[i];
+        const angle = node.angle + t * node.speed;
+        child.position.x = Math.cos(angle) * node.radius;
+        child.position.z = Math.sin(angle) * node.radius;
+        child.position.y = node.y + Math.sin(t * 1.5 + i) * 0.08;
+      });
+    }
+
+    if (streamsRef.current) {
+      const mat = streamsRef.current.material as THREE.LineBasicMaterial;
+      mat.opacity = 0.15 + Math.sin(t * 3) * 0.1;
+    }
+
+    if (particlesRef.current) {
+      particlesRef.current.rotation.y = t * 0.05;
+    }
+  });
 
   return (
-    <group ref={groupRef}>
-      {rings.map((ring, i) => (
-        <mesh key={i} rotation={ring.axis.map(a => a * Math.PI / 4) as [number, number, number]}>
-          <torusGeometry args={[ring.radius, ring.tube, 16, 100]} />
-          <meshBasicMaterial color={ring.color} transparent opacity={0.6} />
-        </mesh>
-      ))}
+    <group>
+      <mesh ref={coreRef}>
+        <icosahedronGeometry args={[0.9, 3]} />
+        <meshStandardMaterial
+          color="#00e5ff"
+          emissive="#00e5ff"
+          emissiveIntensity={2.5}
+          roughness={0.2}
+          metalness={0.8}
+        />
+      </mesh>
+
+      <mesh ref={innerShellRef}>
+        <icosahedronGeometry args={[1.15, 2]} />
+        <meshStandardMaterial
+          color="#00e5ff"
+          emissive="#00e5ff"
+          emissiveIntensity={0.8}
+          wireframe
+          transparent
+          opacity={0.2}
+        />
+      </mesh>
+
+      <mesh ref={outerShellRef}>
+        <icosahedronGeometry args={[1.4, 1]} />
+        <meshStandardMaterial
+          color="#22d3ee"
+          emissive="#22d3ee"
+          emissiveIntensity={0.5}
+          wireframe
+          transparent
+          opacity={0.12}
+        />
+      </mesh>
+
+      <mesh ref={ring1Ref} rotation={[0, 0, 0]}>
+        <torusGeometry args={[1.1, 0.025, 16, 100]} />
+        <meshStandardMaterial
+          color="#00e5ff"
+          emissive="#00e5ff"
+          emissiveIntensity={2}
+          transparent
+          opacity={0.6}
+        />
+      </mesh>
+
+      <mesh ref={ring2Ref} rotation={[Math.PI / 2, 0, 0]}>
+        <torusGeometry args={[1.3, 0.02, 16, 100]} />
+        <meshStandardMaterial
+          color="#22d3ee"
+          emissive="#22d3ee"
+          emissiveIntensity={1.5}
+          transparent
+          opacity={0.45}
+        />
+      </mesh>
+
+      <mesh ref={ring3Ref} rotation={[0, Math.PI / 2, 0]}>
+        <torusGeometry args={[1.4, 0.015, 16, 100]} />
+        <meshStandardMaterial
+          color="#67e8f9"
+          emissive="#67e8f9"
+          emissiveIntensity={1}
+          transparent
+          opacity={0.3}
+        />
+      </mesh>
+
+      <group ref={nodesRef}>
+        {nodesData.map((_, i) => (
+          <mesh key={i}>
+            <sphereGeometry args={[0.05, 8, 8]} />
+            <meshStandardMaterial
+              color="#ffffff"
+              emissive="#00e5ff"
+              emissiveIntensity={3}
+            />
+          </mesh>
+        ))}
+      </group>
+
+      <lineSegments ref={streamsRef} geometry={streamGeo}>
+        <lineBasicMaterial color="#00e5ff" transparent opacity={0.15} />
+      </lineSegments>
+
+      <points ref={particlesRef} geometry={particleGeo}>
+        <pointsMaterial size={0.025} color="#67e8f9" transparent opacity={0.6} sizeAttenuation />
+      </points>
     </group>
-  )
-}
-
-function CoreSphere() {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const { x, y } = useMouseParallax()
-
-  useFrame(() => {
-    if (!meshRef.current) return
-    const pulse = 1 + Math.sin(Date.now() * 0.003) * 0.08
-    meshRef.current.scale.setScalar(pulse)
-    meshRef.current.position.x = x * 0.05
-    meshRef.current.position.y = y * 0.05
-  })
-
-  return (
-    <mesh ref={meshRef}>
-      <sphereGeometry args={[0.4, 32, 32]} />
-      <meshBasicMaterial color="#7c3aed" transparent opacity={0.9} />
-    </mesh>
-  )
-}
-
-function LightTracker() {
-  const lightRef = useRef<THREE.PointLight>(null)
-  const { mouseWorld } = useMouseParallax()
-
-  useFrame(() => {
-    if (!lightRef.current) return
-    lightRef.current.position.x += (mouseWorld.x * 3 - lightRef.current.position.x) * 0.05
-    lightRef.current.position.y += (mouseWorld.y * 3 - lightRef.current.position.y) * 0.05
-    lightRef.current.position.z = 2 + Math.sin(Date.now() * 0.001) * 0.5
-  })
-
-  return (
-    <pointLight
-      ref={lightRef}
-      color="#06b6d4"
-      intensity={2}
-      distance={8}
-      decay={2}
-    />
-  )
+  );
 }
 
 export function AICore() {
-  const { parallax } = useMouseParallax()
-
   return (
-    <group
-      position={[
-        parallax.x * 0.3 + 0.3,
-        parallax.y * 0.3,
-        0
-      ]}
-    >
-      <ambientLight intensity={0.15} />
-      <LightTracker />
-      <pointLight position={[-2, 2, 3]} intensity={0.5} color="#ec4899" />
-      <CoreSphere />
-      <CoreRings />
-    </group>
-  )
+    <div className="w-full h-full" style={{ height: "85vh", minHeight: "600px" }}>
+      <Canvas
+        camera={{ position: [0, 0.5, 6.5], fov: 35 }}
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        style={{ background: "transparent" }}
+      >
+        <ambientLight intensity={0.1} />
+        <pointLight position={[5, 5, 5]} intensity={2} color="#00e5ff" />
+        <pointLight position={[-5, -3, -5]} intensity={1} color="#a855f7" />
+        <spotLight position={[0, 10, 0]} intensity={0.5} color="#ffffff" angle={0.5} penumbra={1} />
+        <Core />
+      </Canvas>
+    </div>
+  );
 }

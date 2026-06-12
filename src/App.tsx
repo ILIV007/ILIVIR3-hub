@@ -1,26 +1,26 @@
-import { RouterProvider } from 'react-router-dom'
-import { LangProvider } from './context/LangContext'
-import { Navbar } from './components/layout/Navbar'
-import { Footer } from './components/layout/Footer'
-import { ScrollProgress } from './components/layout/ScrollProgress'
-import { router } from './router'
-import './styles/globals.css'
-import './styles/animations.css'
-import './styles/neon.css'
+import { Routes, Route } from "react-router-dom";
+import { Navbar } from "@components/layout/Navbar";
+import { Footer } from "@components/layout/Footer";
+import { ScrollProgress } from "@components/layout/ScrollProgress";
+import { Home } from "@pages/Home";
+import { Projects } from "@pages/Projects";
+import { ProjectDetails } from "@pages/ProjectDetails";
+import { Lab } from "@pages/Lab";
+import { NotFound } from "@pages/NotFound";
 
-function App() {
+export default function App() {
   return (
-    <LangProvider>
-      <div className="min-h-screen bg-iliv-dark text-white">
-        <ScrollProgress />
-        <Navbar />
-        <main>
-          <RouterProvider router={router} />
-        </main>
-        <Footer />
-      </div>
-    </LangProvider>
-  )
+    <div className="min-h-screen bg-deep-navy text-white overflow-x-hidden">
+      <ScrollProgress />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/project/:slug" element={<ProjectDetails />} />
+        <Route path="/lab" element={<Lab />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </div>
+  );
 }
-
-export default App

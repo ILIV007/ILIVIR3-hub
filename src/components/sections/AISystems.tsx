@@ -1,58 +1,76 @@
-import { Card } from '../ui/Card'
-import { Brain, Zap, Shield } from 'lucide-react'
+import { motion } from "motion/react";
+import { SectionTitle } from "@components/ui/SectionTitle";
+import { GlassPanel } from "@components/ui/GlassPanel";
+import { Badge } from "@components/ui/Badge";
+import { Bot, Brain, Zap, MessageSquare, Sparkles } from "lucide-react";
+import { useLang } from "@context/LangContext";
 
-const systems = [
-  {
-    icon: Brain,
-    title: 'IVAI Bot',
-    description: 'ربات هوش مصنوعی پیشرفته با پشتیبانی از چندین مدل',
-    features: ['Multi-Model', 'Real-time', 'Custom Prompts'],
-  },
-  {
-    icon: Zap,
-    title: 'TradeAgent IV',
-    description: 'سیستم تحلیل و سیگنال‌دهی معاملاتی مبتنی بر AI',
-    features: ['Technical Analysis', 'AI Signals', 'Risk Management'],
-  },
-  {
-    icon: Shield,
-    title: 'ILIVIR3 Core',
-    description: 'هسته مرکزی سیستم‌های هوش مصنوعی',
-    features: ['Scalable', 'Secure', 'Fast'],
-  },
-]
+const features = [
+ { icon: Brain, title: "Gemini Integration", titleFa: "اتصال Gemini", desc: "Direct connection to Gemini models with version switching.", descFa: "اتصال مستقیم به مدل‌های Gemini با سوئیچ نسخه." },
+ { icon: MessageSquare, title: "Prompt Master", titleFa: "پرامپت مستر", desc: "Advanced prompt management and optimization system.", descFa: "سیستم پیشرفته مدیریت و بهینه‌سازی پرامپت." },
+ { icon: Zap, title: "Real-time Analysis", titleFa: "تحلیل لحظه‌ای", desc: "AI-powered real-time market and data analysis.", descFa: "تحلیل لحظه‌ای بازار و داده‌ها با AI." },
+ { icon: Sparkles, title: "Multi-Model Support", titleFa: "چند مدل", desc: "Support for multiple AI models with auto-update.", descFa: "پشتیبانی از چندین مدل AI با آپدیت خودکار." },
+];
 
 export function AISystems() {
-  return (
-    <section className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">سیستم‌های AI</h2>
-          <p className="text-white/60 text-lg">راهکارهای هوشمند ما</p>
+ const { t, lang } = useLang();
+
+ return (
+    <section className="relative py-24 px-4">
+      <div className="max-w-6xl mx-auto">
+        <SectionTitle
+          title={t("AI Systems", "سیستم‌های AI")}
+          subtitle={t("Intelligent bots and AI-powered tools", "ربات‌های هوشمند و ابزارهای AI")}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <GlassPanel glow="cyan">
+            <div className="flex items-center gap-3 mb-3">
+              <Bot className="w-6 h-6 text-accent-cyan" />
+              <h3 className="text-lg font-bold text-white">IVAI Bot</h3>
+            </div>
+            <Badge variant="active" className="mb-3">{t("Active", "فعال")}</Badge>
+            <p className="text-navy-300 text-sm leading-relaxed">
+              {t("Smart Telegram bot powered by Gemini AI. Multi-model support, prompt master, and user management.", "ربات هوشمند تلگرام با Gemini. پشتیبانی چند مدل، پرامپت مستر و مدیریت کاربر.")}
+            </p>
+          </GlassPanel>
+
+          <GlassPanel glow="purple">
+            <div className="flex items-center gap-3 mb-3">
+              <Zap className="w-6 h-6 text-accent-purple" />
+              <h3 className="text-lg font-bold text-white">TradeAgent IV</h3>
+            </div>
+            <Badge variant="active" className="mb-3">{t("Active", "فعال")}</Badge>
+            <p className="text-navy-300 text-sm leading-relaxed">
+              {t("Intelligent trading analysis bot. AI market analysis, automated signals, and risk management.", "ربات تحلیل ترید هوشمند. تحلیل AI بازار، سیگنال خودکار و مدیریت ریسک.")}
+            </p>
+          </GlassPanel>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {systems.map((system) => (
-            <Card key={system.title} className="group hover:border-iliv-cyan/50 transition-all duration-300">
-              <div className="space-y-4">
-                <div className="w-12 h-12 rounded-xl bg-iliv-purple/20 flex items-center justify-center">
-                  <system.icon className="w-6 h-6 text-iliv-purple" />
-                </div>
-                <h3 className="text-xl font-bold text-white">{system.title}</h3>
-                <p className="text-white/60">{system.description}</p>
-                <div className="space-y-2">
-                  {system.features.map((feature) => (
-                    <div key={feature} className="flex items-center gap-2 text-sm text-white/50">
-                      <div className="w-1.5 h-1.5 rounded-full bg-iliv-cyan" />
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {features.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                className="p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent-cyan/30 transition-colors"
+              >
+                <Icon className="w-5 h-5 text-accent-cyan mb-2" />
+                <h4 className="text-sm font-semibold text-white mb-1">
+                  {lang === "fa" ? f.titleFa : f.title}
+                </h4>
+                <p className="text-xs text-navy-400 leading-relaxed">
+                  {lang === "fa" ? f.descFa : f.desc}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
-  )
+ );
 }

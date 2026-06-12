@@ -1,65 +1,89 @@
-import { Card } from '../ui/Card'
-import { Badge } from '../ui/Badge'
-import { projects } from '../../data/projects'
-import { ExternalLink, Github, Send, Bot, TrendingUp } from 'lucide-react'
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
+import { SectionTitle } from "@components/ui/SectionTitle";
+import { Card } from "@components/ui/Card";
+import { Badge } from "@components/ui/Badge";
+import { getFeatured } from "@data/projects";
+import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2 } from "lucide-react";
+import { useLang } from "@context/LangContext";
+
+const iconMap: Record<string, React.ReactNode> = {
+  AI: <Bot className="w-5 h-5" />,
+  Finance: <TrendingUp className="w-5 h-5" />,
+  Game: <Gamepad2 className="w-5 h-5" />,
+};
 
 export function FeaturedProjects() {
-  return (
-    <section className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">پروژه‌های برجسته</h2>
-          <p className="text-white/60 text-lg">آخرین پروژه‌های توسعه‌یافته</p>
-        </div>
+  const { lang } = useLang();
+  const featured = getFeatured();
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project) => (
-            <Card key={project.id} className="group hover:border-iliv-purple/50 transition-all duration-300">
-              <div className="space-y-4">
-                <div className="flex items-start justify-between">
-                  <h3 className="text-xl font-bold text-white group-hover:text-iliv-purple transition-colors">
-                    {project.title}
+  return (
+    <section className="relative py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <SectionTitle
+          title={lang === "fa" ? "پروژه‌های برتر" : "Featured Projects"}
+          subtitle={lang === "fa" ? "برترین پروژه‌های فعال با بیشترین تأثیر" : "Top active projects with the most impact"}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {featured.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+            >
+              <Link to={`/project/${project.slug}`}>
+                <Card className="h-full flex flex-col group">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 rounded-lg bg-accent-cyan-dim text-accent-cyan">
+                        {iconMap[project.category] || <Bot className="w-5 h-5" />}
+                      </div>
+                      <Badge variant={project.status === "Active" ? "active" : "beta"}>
+                        {project.status}
+                      </Badge>
+                    </div>
+                    <span className="text-xs text-navy-500 font-mono">{project.category}</span>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-white mb-1.5 group-hover:text-accent-cyan transition-colors">
+                    {lang === "fa" ? project.titleFa : project.title}
                   </h3>
-                  <div className="flex items-center gap-2">
+                  <p className="text-navy-400 text-sm leading-relaxed mb-4 flex-grow">
+                    {lang === "fa" ? project.shortDescFa : project.shortDesc}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span key={tag} className="text-xs px-2 py-0.5 rounded bg-white/5 text-navy-400 border border-white/5">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-3 border-t border-white/5">
                     {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                        <Github className="w-5 h-5" />
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-navy-500 hover:text-white transition-colors" title="GitHub">
+                        <Github className="w-4 h-4" />
                       </a>
                     )}
                     {project.demo && (
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">
-                        <ExternalLink className="w-5 h-5" />
+                      <a href={project.demo} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-navy-500 hover:text-accent-cyan transition-colors" title="Demo">
+                        <ExternalLink className="w-4 h-4" />
                       </a>
                     )}
-                    {project.telegram && (
-                      <a href={project.telegram} target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-iliv-cyan transition-colors">
-                        <Send className="w-5 h-5" />
-                      </a>
-                    )}
+                    <span className="ml-auto text-accent-cyan text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {lang === "fa" ? "جزئیات" : "Details"} <ArrowRight className="w-3 h-3" />
+                    </span>
                   </div>
-                </div>
-                <p className="text-white/60">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </div>
-                {project.telegram && (
-                  <a
-                    href={project.telegram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-iliv-cyan hover:text-iliv-cyan/80 transition-colors"
-                  >
-                    {project.id === 'ivai' ? <Bot className="w-4 h-4" /> : <TrendingUp className="w-4 h-4" />}
-                    {project.id === 'ivai' ? '@ivai_llm_bot' : '@tradeagentiv'}
-                  </a>
-                )}
-              </div>
-            </Card>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

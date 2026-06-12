@@ -1,24 +1,28 @@
-import { Button } from '../ui/Button'
-import { Heart } from 'lucide-react'
+import { motion } from "motion/react";
+import { GlassPanel } from "@components/ui/GlassPanel";
+import { Button } from "@components/ui/Button";
+import { Heart, ExternalLink } from "lucide-react";
+import { useLang } from "@context/LangContext";
 
 export function DonateCTA() {
+  const { t } = useLang();
+
   return (
-    <section className="py-24 relative">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass rounded-3xl p-8 md:p-12 text-center space-y-6 border border-iliv-pink/20">
-          <div className="w-16 h-16 rounded-2xl bg-iliv-pink/20 flex items-center justify-center mx-auto">
-            <Heart className="w-8 h-8 text-iliv-pink" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient">حمایت از پروژه</h2>
-          <p className="text-white/60 text-lg max-w-xl mx-auto">
-            با حمایت مالی خود به توسعه پروژه‌های متن‌باز ما کمک کنید
-          </p>
-          <Button variant="primary" className="bg-iliv-pink hover:bg-iliv-pink/80 shadow-lg shadow-iliv-pink/25">
-            <Heart className="w-5 h-5 mr-2" />
-            حمایت مالی
-          </Button>
-        </div>
+    <section className="relative py-12 px-4">
+      <div className="max-w-2xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
+          <GlassPanel className="text-center py-8">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 mb-4">
+              <Heart className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white mb-1">{t("Support the Project", "از پروژه حمایت کنید")}</h3>
+            <p className="text-navy-400 text-sm mb-4 max-w-md mx-auto">{t("Your support helps keep these projects free and open source.", "حمایت شما به حفظ رایگان و متن‌باز بودن این پروژه‌ها کمک می‌کند.")}</p>
+            <Button variant="outline" href="https://donate-iv.pages.dev/" size="md" icon={<ExternalLink className="w-4 h-4" />}>
+              {t("Donate", "حمایت")}
+            </Button>
+          </GlassPanel>
+        </motion.div>
       </div>
     </section>
-  )
+  );
 }

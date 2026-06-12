@@ -1,74 +1,91 @@
-import { useState } from 'react'
-import { Menu, X, Globe } from 'lucide-react'
-import { useLang } from '../../context/LangContext'
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { Github, Menu, X, Globe } from "lucide-react";
+import { useLang } from "@context/LangContext";
+
+const navLinks = [
+  { to: "/", label: "Home", labelFa: "خانه" },
+  { to: "/projects", label: "Projects", labelFa: "پروژه‌ها" },
+  { to: "/lab", label: "Lab", labelFa: "آزمایشگاه" },
+];
 
 export function Navbar() {
-  const [open, setOpen] = useState(false)
-  const { lang, setLang, t } = useLang()
-
-  const toggleLang = () => setLang(lang === 'en' ? 'fa' : 'en')
-
-  const navLinks = [
-    { label: t('nav.home'), href: '/' },
-    { label: t('nav.projects'), href: '/projects' },
-    { label: t('nav.lab'), href: '/lab' },
-  ]
+  const { lang, setLang } = useLang();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <a href="/" className="text-xl font-bold text-gradient">ILIVIR3</a>
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-deep-navy/80 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="text-xl font-bold gradient-text">ILIVIR3</span>
+        </Link>
 
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-white/70 hover:text-white transition-colors text-sm font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
-            <button
-              onClick={toggleLang}
-              className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm"
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`text-sm font-medium transition-colors ${
+                location.pathname === link.to ? "text-accent-cyan" : "text-navy-400 hover:text-white"
+              }`}
             >
-              <Globe className="w-4 h-4" />
-              {lang === 'en' ? 'FA' : 'EN'}
-            </button>
-          </div>
+              {lang === "fa" ? link.labelFa : link.label}
+            </Link>
+          ))}
+        </div>
 
+        <div className="flex items-center gap-3">
           <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden text-white/70 hover:text-white"
+            onClick={() => setLang(lang === "en" ? "fa" : "en")}
+            className="flex items-center gap-1 text-xs text-navy-400 hover:text-accent-cyan transition-colors"
           >
-            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Globe className="w-3.5 h-3.5" />
+            {lang === "en" ? "FA" : "EN"}
+          </button>
+          <a
+            href="https://github.com/ILIV007"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-navy-400 hover:text-white transition-colors"
+          >
+            <Github className="w-5 h-5" />
+          </a>
+          <button
+            className="md:hidden text-navy-400 hover:text-white"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {open && (
-        <div className="md:hidden glass border-t border-white/5 px-4 py-4 space-y-3">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="block text-white/70 hover:text-white transition-colors text-sm font-medium"
-              onClick={() => setOpen(false)}
-            >
-              {link.label}
-            </a>
-          ))}
-          <button
-            onClick={toggleLang}
-            className="flex items-center gap-2 text-white/70 hover:text-white transition-colors text-sm"
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-white/5 bg-deep-navy/95"
           >
-            <Globe className="w-4 h-4" />
-            {lang === 'en' ? 'FA' : 'EN'}
-          </button>
-        </div>
-      )}
+            <div className="px-4 py-3 space-y-2">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMenuOpen(false)}
+                  className={`block text-sm py-1 ${
+                    location.pathname === link.to ? "text-accent-cyan" : "text-navy-400"
+                  }`}
+                >
+                  {lang === "fa" ? link.labelFa : link.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
-  )
+  );
 }

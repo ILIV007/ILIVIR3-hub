@@ -1,36 +1,49 @@
-import { techFeed } from '../../data/techFeed'
-import { Card } from '../ui/Card'
-import { Badge } from '../ui/Badge'
-import { Newspaper } from 'lucide-react'
+import { motion } from "motion/react";
+import { SectionTitle } from "@components/ui/SectionTitle";
+import { Card } from "@components/ui/Card";
+import { Badge } from "@components/ui/Badge";
+import { techFeedItems } from "@data/techFeed";
+import { Newspaper, ExternalLink, Calendar } from "lucide-react";
+import { useLang } from "@context/LangContext";
+
+const tagColors: Record<string, string> = { React: "info", CSS: "beta", AI: "active", DevOps: "default" };
 
 export function TechFeed() {
-  return (
-    <section className="py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">تک‌فید</h2>
-          <p className="text-white/60 text-lg">آخرین اخبار تکنولوژی</p>
-        </div>
+  const { lang } = useLang();
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {techFeed.map((item) => (
-            <Card key={item.id} className="flex items-start gap-4 group hover:border-iliv-pink/50 transition-all duration-300">
-              <div className="w-10 h-10 rounded-lg bg-iliv-pink/20 flex items-center justify-center shrink-0">
-                <Newspaper className="w-5 h-5 text-iliv-pink" />
-              </div>
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Badge>{item.category}</Badge>
-                  <span className="text-xs text-white/40">{item.date}</span>
+  return (
+    <section className="relative py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <SectionTitle
+          title={lang === "fa" ? "اخبار تکنولوژی" : "Tech News"}
+          subtitle={lang === "fa" ? "آخرین آپدیت‌ها از دنیای تکنولوژی" : "Latest updates from the tech world"}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {techFeedItems.map((item, index) => (
+            <motion.div key={item.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: index * 0.08 }}>
+              <Card className="flex items-start gap-3" hover>
+                <div className="p-2 rounded-lg bg-accent-cyan-dim text-accent-cyan shrink-0">
+                  <Newspaper className="w-4 h-4" />
                 </div>
-                <h3 className="text-white font-medium group-hover:text-iliv-pink transition-colors">
-                  {item.title}
-                </h3>
-              </div>
-            </Card>
+                <div className="flex-grow min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <Badge variant={tagColors[item.tag] as any || "default"}>{item.tag}</Badge>
+                    <span className="text-navy-500 text-xs flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />{item.date}
+                    </span>
+                  </div>
+                  <h4 className="text-white font-semibold text-sm mb-0.5 truncate">{lang === "fa" ? item.titleFa : item.title}</h4>
+                  <p className="text-navy-500 text-xs">{item.source}</p>
+                </div>
+                <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-navy-600 hover:text-accent-cyan transition-colors shrink-0">
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }
