@@ -23,7 +23,7 @@ export const projects: Project[] = [
     description: "Smart Telegram bot powered by Gemini AI. Multi-model support, prompt master system, and advanced user management.",
     descriptionFa: "ربات هوشمند تلگرام با قدرت Gemini. پشتیبانی چند مدل، سیستم پرامپت مستر و مدیریت کاربر.",
     shortDesc: "Telegram AI bot with Gemini", shortDescFa: "ربات AI تلگرام با Gemini",
-    github: "https://github.com/ILIV007/IVAI", telegram: "https://t.me/IVAI_bot",
+    github: "https://github.com/ILIV007/IVAI", telegram: "https://t.me/IVAI_bot", demo: "https://t.me/IVAI_LLM_bot",
     tags: ["Telegram", "Gemini", "Python", "AI"], featured: true,
   },
   {
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     description: "Intelligent trading analysis bot. AI market analysis, automated signals, and risk management.",
     descriptionFa: "ربات تحلیل و ترید هوشمند. تحلیل AI بازار، سیگنال خودکار و مدیریت ریسک.",
     shortDesc: "AI-powered trading analysis", shortDescFa: "تحلیل ترید با AI",
-    github: "https://github.com/ILIV007/TradeAgentIV", telegram: "https://t.me/TradeAgentIV_bot",
+    github: "https://github.com/ILIV007/TradeAgentIV", telegram: "https://t.me/TradeAgentIV_bot", demo: "https://t.me/tradeagentiv",
     tags: ["Trading", "AI", "Python", "Finance"], featured: true,
   },
   {

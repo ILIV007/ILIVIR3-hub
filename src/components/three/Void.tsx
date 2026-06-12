@@ -1,14 +1,19 @@
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-function Singularity() {
+interface VoidProps {
+  mousePos?: React.MutableRefObject<THREE.Vector2>;
+}
+
+export function Void({ mousePos }: VoidProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const knotRef = useRef<THREE.Mesh>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
   const swarmRef = useRef<THREE.Points>(null);
   const dustRef = useRef<THREE.Points>(null);
-
+  
   const swarmGeo = useMemo(() => {
     const count = 1500;
     const pos = new Float32Array(count * 3);
@@ -41,8 +46,25 @@ function Singularity() {
     return geo;
   }, []);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
+
+    // Mouse Reaction: Distortion & Glow
+    if (mousePos && groupRef.current) {
+       const dist = Math.sqrt(
+         Math.pow(mousePos.current.x, 2) + Math.pow(mousePos.current.y, 2)
+       );
+       // Subtle reaction to mouse proximity
+       const intensity = Math.max(0, 1 - dist * 0.5); 
+       groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, mousePos.current.x * 0.1, delta * 2);
+       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mousePos.current.y * 0.1, delta * 2);
+       
+       if(swarmRef.current) {
+         const mat = swarmRef.current.material as THREE.PointsMaterial;
+         mat.size = 0.02 + intensity * 0.03;
+         mat.opacity = 0.4 + Math.sin(t * 2) * 0.2 + intensity * 0.3;
+       }
+    }
 
     if (knotRef.current) {
       knotRef.current.rotation.x = t * 0.15;
@@ -60,7 +82,8 @@ function Singularity() {
       ring2Ref.current.rotation.y = Math.cos(t * 0.4) * 0.2;
     }
 
-    if (swarmRef.current) {
+    if (swarmRef.current && !mousePos) {
+      // Fallback animation if no mouse prop
       swarmRef.current.rotation.y = t * 0.03;
       const mat = swarmRef.current.material as THREE.PointsMaterial;
       mat.opacity = 0.4 + Math.sin(t * 2) * 0.2;
@@ -73,7 +96,7 @@ function Singularity() {
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
       <mesh ref={knotRef}>
         <torusKnotGeometry args={[0.6, 0.15, 128, 16, 2, 3]} />
         <meshStandardMaterial
@@ -121,23 +144,5 @@ function Singularity() {
         <pointsMaterial size={0.015} color="#6366f1" transparent opacity={0.25} sizeAttenuation />
       </points>
     </group>
-  );
-}
-
-export function Void() {
-  return (
-    <div className="w-full h-full" style={{ height: "85vh", minHeight: "600px", opacity: 0.5 }}>
-      <Canvas
-        camera={{ position: [0, 0, 5.5], fov: 35 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={0.05} />
-        <pointLight position={[-5, -5, -5]} intensity={1.5} color="#a855f7" />
-        <pointLight position={[5, 3, 5]} intensity={0.6} color="#c084fc" />
-        <Singularity />
-      </Canvas>
-    </div>
   );
 }

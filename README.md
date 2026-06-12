@@ -166,4 +166,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
   <br>
   <b>Visit:</b> <a href="https://ilivir3.pages.dev/">ilivir3.pages.dev</a>
 </div>
-```

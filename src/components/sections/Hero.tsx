@@ -1,8 +1,9 @@
 import { motion } from "motion/react";
+import { Canvas } from "@react-three/fiber";
 import { AICore } from "@components/three/AICore";
 import { Void } from "@components/three/Void";
 import { Button } from "@components/ui/Button";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight, Github, Send } from "lucide-react";
 import { useLang } from "@context/LangContext";
 
 export function Hero() {
@@ -13,18 +14,20 @@ export function Hero() {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-navy-950 to-navy-900" />
 
-      {/* Void Model - Left Background (Positioned with safe bounds) */}
-      <div className="hidden lg:block absolute left-[-5%] top-0 w-[40vw] h-screen z-0 pointer-events-none overflow-hidden">
-        <div className="w-full h-full transform scale-110 origin-center">
+      {/* Void Model - Left Background (Fixed position and size) */}
+      <div className="hidden lg:block absolute left-[0%] top-0 w-[30vw] h-screen z-0 pointer-events-none">
+        <Canvas camera={{ position: [0, 0, 4], fov: 50 }} dpr={[1, 2]}>
+          <ambientLight intensity={0.6} />
           <Void />
-        </div>
+        </Canvas>
       </div>
 
-      {/* AICore Model - Right Background (Positioned with safe bounds) */}
-      <div className="hidden lg:block absolute right-[-5%] top-0 w-[40vw] h-screen z-0 pointer-events-none overflow-hidden">
-        <div className="w-full h-full transform scale-110 origin-center">
+      {/* AICore Model - Right Background (Fixed position and size) */}
+      <div className="hidden lg:block absolute right-[0%] top-0 w-[30vw] h-screen z-0 pointer-events-none">
+        <Canvas camera={{ position: [0, 0, 4], fov: 50 }} dpr={[1, 2]}>
+          <ambientLight intensity={0.6} />
           <AICore />
-        </div>
+        </Canvas>
       </div>
 
       {/* Center Content - Top layer */}
@@ -60,6 +63,17 @@ export function Hero() {
               </Button>
               <Button variant="outline" href="https://github.com/ILIV007" size="lg" icon={<Github className="w-5 h-5" />}>
                 {t("GitHub", "گیت‌هاب")}
+              </Button>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-3"
+            >
+              <Button variant="outline" href="https://t.me/ILIVIR3" size="lg" icon={<Send className="w-5 h-5" />}>
+                Telegram
               </Button>
             </motion.div>
 

@@ -1,8 +1,13 @@
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-function Core() {
+interface AICoreProps {
+  mousePos?: React.MutableRefObject<THREE.Vector2>;
+}
+
+export function AICore({ mousePos }: AICoreProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   const innerShellRef = useRef<THREE.Mesh>(null);
   const outerShellRef = useRef<THREE.Mesh>(null);
@@ -12,6 +17,7 @@ function Core() {
   const nodesRef = useRef<THREE.Group>(null);
   const streamsRef = useRef<THREE.LineSegments>(null);
   const particlesRef = useRef<THREE.Points>(null);
+  const lightRef = useRef<THREE.PointLight>(null);
 
   const nodesData = useMemo(() => {
     const nodes: { angle: number; radius: number; speed: number; y: number }[] = [];
@@ -68,8 +74,19 @@ function Core() {
     return geo;
   }, []);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
+
+    // Mouse Reaction: Light Tracking & Subtle Rotation
+    if (mousePos && groupRef.current && lightRef.current) {
+       // Light follows mouse
+       lightRef.current.position.x = THREE.MathUtils.lerp(lightRef.current.position.x, mousePos.current.x * 5, delta * 3);
+       lightRef.current.position.y = THREE.MathUtils.lerp(lightRef.current.position.y, mousePos.current.y * 5 + 2, delta * 3);
+       
+       // Very subtle group rotation based on mouse
+       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mousePos.current.x * 0.1, delta * 2);
+       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mousePos.current.y * 0.1, delta * 2);
+    }
 
     if (coreRef.current) {
       coreRef.current.rotation.y = t * 0.3;
@@ -118,7 +135,17 @@ function Core() {
   });
 
   return (
-    <group>
+    <group ref={groupRef}>
+      {/* Dynamic Light that follows mouse */}
+      <pointLight 
+        ref={lightRef} 
+        position={[0, 2, 5]} 
+        intensity={1.5} 
+        color="#40e0d0" 
+        distance={10}
+        decay={2}
+      />
+      
       <mesh ref={coreRef}>
         <icosahedronGeometry args={[0.9, 3]} />
         <meshStandardMaterial
@@ -177,7 +204,7 @@ function Core() {
       </mesh>
 
       <mesh ref={ring3Ref} rotation={[0, Math.PI / 2, 0]}>
-        <torusGeometry args={[1.4, 0.015, 16, 100]} />
+        <torusGeometry args={[1.45, 0.015, 16, 100]} />
         <meshStandardMaterial
           color="#67e8f9"
           emissive="#67e8f9"
@@ -208,24 +235,5 @@ function Core() {
         <pointsMaterial size={0.025} color="#67e8f9" transparent opacity={0.6} sizeAttenuation />
       </points>
     </group>
-  );
-}
-
-export function AICore() {
-  return (
-    <div className="w-full h-full" style={{ height: "85vh", minHeight: "600px" }}>
-      <Canvas
-        camera={{ position: [0, 0.5, 6.5], fov: 35 }}
-        dpr={[1, 1.5]}
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={0.1} />
-        <pointLight position={[5, 5, 5]} intensity={2} color="#00e5ff" />
-        <pointLight position={[-5, -3, -5]} intensity={1} color="#a855f7" />
-        <spotLight position={[0, 10, 0]} intensity={0.5} color="#ffffff" angle={0.5} penumbra={1} />
-        <Core />
-      </Canvas>
-    </div>
   );
 }
