@@ -5,7 +5,7 @@
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-F69652?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-ILIVIR3-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ILIVIR3)
 [![GitHub](https://img.shields.io/badge/GitHub-ILIV007-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ILIV007/ILIVIR3-hub)
-![Version](https://img.shields.io/badge/Version-11.0-blue?style=flat-square)
+![Version](https://img.shields.io/badge/Version-11.2-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ---
@@ -201,6 +201,24 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 ## 📦 Changelog
+
+### v11.2.0 — Wormhole 404 + Polish
+
+- **NEW**: Custom 3D wormhole scene on the 404 page — a cute animated black hole eating everything (particles spiraling inward, glowing accretion disk, pastel palette)
+- Restored emoji favicon (🌀) by popular demand
+- Fixed WebGL "Context Lost" warning by adding proper canvas cleanup and dispose lifecycle
+- Added lazy-mount to 404 wormhole scene (only loads when 404 actually renders)
+- Reduced-motion users get a static fallback instead of the animated scene
+
+### v11.1.0 — Content Update
+
+- Added 7 new projects from GitHub research: AI Admin, Lyra, Fredy, Hades Army, Pixoris, AtlasEA, XO Game
+- Updated existing projects (TradeAgent IV HYBRID, IVAI Bot, Arkeen Serpent, ILIVIR3 Hub) with accurate descriptions
+- Project filtering (by status + category) on /projects page
+- Project details page now shows version + release date + related projects
+- AISystems section now spotlights 4 bots (AI Admin, TradeAgent IV, Lyra, Fredy)
+- Timeline expanded to 10 real events from 2024-01 to 2025-12
+- TechFeed updated with 6 fresh items
 
 ### v11.0.0 — Refactor & Debug Release
 

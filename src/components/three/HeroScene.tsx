@@ -19,6 +19,12 @@ export function HeroScene() {
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       frameloop={prefersReducedMotion ? "demand" : "always"}
+      onCreated={({ gl }) => {
+        const canvas = gl.domElement;
+        canvas.addEventListener("webglcontextlost", (e) => {
+          e.preventDefault();
+        }, { once: false });
+      }}
     >
       <ambientLight intensity={0.6} />
       <pointLight position={[10, 10, 10]} intensity={0.8} color="#40e0d0" />

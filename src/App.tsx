@@ -39,7 +39,7 @@ const routeMeta: Record<string, { title: string; description: string }> = {
   },
   "/404": {
     title: "Page Not Found",
-    description: "The page you are looking for does not exist.",
+    description: "The page you are looking for does not exist — it was devoured by a wormhole.",
   },
 };
 
@@ -90,8 +90,26 @@ export default function App() {
             </ErrorBoundary>
           }
         />
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/404"
+          element={
+            <ErrorBoundary fallback={<PageFallback />}>
+              <Suspense fallback={<PageFallback />}>
+                <NotFound />
+              </Suspense>
+            </ErrorBoundary>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ErrorBoundary fallback={<PageFallback />}>
+              <Suspense fallback={<PageFallback />}>
+                <NotFound />
+              </Suspense>
+            </ErrorBoundary>
+          }
+        />
       </Routes>
       <Footer />
     </div>
