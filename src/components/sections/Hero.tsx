@@ -1,7 +1,8 @@
 import { useRef, Suspense, lazy } from "react";
 import { motion } from "motion/react";
 import { Button } from "@components/ui/Button";
-import { ArrowRight, Github, Send } from "lucide-react";
+import { ArrowRight, Github } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 import { useInView } from "@hooks/usePrefersReducedMotion";
 import { ErrorBoundary } from "@components/ErrorBoundary";
@@ -80,7 +81,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.7 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-3"
           >
-            <Button variant="outline" href="https://t.me/ILIVIR3" size="lg" icon={<Send className="w-5 h-5" />}>
+            <Button variant="outline" href="https://t.me/ILIVIR3" size="lg" icon={<TelegramIcon className="w-5 h-5" />}>
               {lang === "fa" ? "تلگرام" : "Telegram"}
             </Button>
           </motion.div>

@@ -6,7 +6,8 @@ import { statusToBadgeVariant } from "@components/ui/badge-variants";
 import { Button } from "@components/ui/Button";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { Seo } from "@components/Seo";
-import { Github, ExternalLink, ArrowLeft, ArrowRight, Bot, Tag, Calendar, Send } from "lucide-react";
+import { Github, ExternalLink, ArrowLeft, ArrowRight, Bot, Tag, Calendar } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 export function ProjectDetails() {
@@ -95,7 +96,7 @@ export function ProjectDetails() {
                 </Button>
               )}
               {project.telegram && (
-                <Button variant="secondary" href={project.telegram} icon={<Send className="w-3.5 h-3.5" />} size="sm">
+                <Button variant="secondary" href={project.telegram} icon={<TelegramIcon className="w-3.5 h-3.5" />} size="sm">
                   {lang === "fa" ? "تلگرام" : "Telegram"}
                 </Button>
               )}

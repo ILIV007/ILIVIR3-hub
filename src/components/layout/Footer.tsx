@@ -1,4 +1,5 @@
-import { Github, Send, Youtube, Instagram } from "lucide-react";
+import { Github, Youtube, Instagram } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 export function Footer() {
@@ -18,7 +19,7 @@ export function Footer() {
             <Github className="w-4 h-4" />
           </a>
           <a href="https://t.me/ILIVIR3" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="text-navy-500 hover:text-accent-cyan transition-colors">
-            <Send className="w-4 h-4" />
+            <TelegramIcon className="w-4 h-4" />
           </a>
           <a href="https://youtube.com/@ILIVIR3" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-navy-500 hover:text-red-400 transition-colors">
             <Youtube className="w-4 h-4" />

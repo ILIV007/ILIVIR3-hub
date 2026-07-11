@@ -5,7 +5,8 @@ import { Card } from "@components/ui/Card";
 import { Badge } from "@components/ui/Badge";
 import { statusToBadgeVariant } from "@components/ui/badge-variants";
 import { getFeatured } from "@data/projects";
-import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2, Globe, Wrench, CandlestickChart, Send } from "lucide-react";
+import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2, Globe, Wrench, CandlestickChart } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -95,7 +96,7 @@ export function FeaturedProjects() {
                       title="Telegram"
                       aria-label="Telegram bot or channel"
                     >
-                      <Send className="w-4 h-4" />
+                      <TelegramIcon className="w-4 h-4" />
                     </a>
                   )}
                   {project.demo && (

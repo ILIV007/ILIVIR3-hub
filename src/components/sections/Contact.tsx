@@ -2,12 +2,13 @@ import { motion } from "motion/react";
 import { SectionTitle } from "@components/ui/SectionTitle";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { socials, contactEmail } from "@data/socials";
-import { Github, Send, Youtube, Mail, Instagram, ExternalLink } from "lucide-react";
+import { Github, Youtube, Mail, Instagram, ExternalLink } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 const iconMap: Record<string, React.ReactNode> = {
   github: <Github className="w-5 h-5" />,
-  send: <Send className="w-5 h-5" />,
+  send: <TelegramIcon className="w-5 h-5" />,
   youtube: <Youtube className="w-5 h-5" />,
   instagram: <Instagram className="w-5 h-5" />,
 };

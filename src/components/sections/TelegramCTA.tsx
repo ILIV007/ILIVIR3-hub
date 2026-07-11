@@ -2,7 +2,8 @@ import { motion } from "motion/react";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { Button } from "@components/ui/Button";
 import { telegramLinks } from "@data/socials";
-import { Send, Radio, MessageCircle, Users } from "lucide-react";
+import { Radio, MessageCircle, Users } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 export function TelegramCTA() {
@@ -14,7 +15,7 @@ export function TelegramCTA() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
           <GlassPanel glow="cyan" className="text-center py-10">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-accent-cyan-dim text-accent-cyan mb-5">
-              <Send className="w-6 h-6" />
+              <TelegramIcon className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">{t("Join Telegram", "به تلگرام بپیوندید")}</h2>
             <p className="text-navy-400 text-sm max-w-sm mx-auto mb-6">{t("Get the latest news, updates and new projects first.", "آخرین اخبار، آپدیت‌ها و پروژه‌های جدید را اولین نفر دریافت کنید.")}</p>

@@ -14,8 +14,8 @@ import {
   Sparkles,
   ArrowRight,
   ExternalLink,
-  Send,
 } from "lucide-react";
+import { TelegramIcon } from "@components/ui/TelegramIcon";
 import { useLang } from "@context/useLang";
 
 interface AiFeature {
@@ -136,7 +136,7 @@ export function AISystems() {
                       href={bot.telegram}
                       variant={accent === "cyan" ? "primary" : "secondary"}
                       size="sm"
-                      icon={<Send className="w-3.5 h-3.5" />}
+                      icon={<TelegramIcon className="w-3.5 h-3.5" />}
                     >
                       {t("Open Bot", "باز کردن ربات")}
                     </Button>
