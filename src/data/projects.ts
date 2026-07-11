@@ -197,7 +197,7 @@ export const projects: Project[] = [
     shortDesc: "Telegram AI bot with Gemini",
     shortDescFa: "ربات AI تلگرام با Gemini",
     github: "https://github.com/ILIV007/IVAI",
-    telegram: "https://t.me/IVAI_bot",
+    telegram: "https://t.me/IVAI_LLM_bot",
     tags: ["Telegram", "Gemini", "Python", "AI"],
     featured: false,
   },
@@ -270,7 +270,7 @@ export const projects: Project[] = [
     titleFa: "ILIVIR3 HUB",
     category: "Web",
     status: "Active",
-    version: "11.5.0",
+    version: "11.5.1",
     released: "2025-01",
     description:
       "The Central Portal for ILIVIR3 Telegram Bot & Projects. Modern, responsive single-page application deployed on Cloudflare Pages. Bilingual (EN/FA) with full RTL support, glassmorphism UI, 3D hero scene, code-splitting, lazy-loaded routes, and SEO-ready with Open Graph, Twitter Card, JSON-LD structured data.",
