@@ -38,7 +38,7 @@ export function Contact() {
                 <div className="p-4 rounded-2xl bg-accent-cyan/10 text-accent-cyan group-hover:bg-accent-cyan group-hover:text-navy-950 transition-all shadow-[0_0_20px_rgba(0,229,255,0.15)]">
                   <Mail className="w-8 h-8" />
                 </div>
-                <div className="text-center md:text-left flex-1">
+                <div className="text-center md:text-start flex-1">
                   <h3 className="text-white font-bold text-lg mb-1">
                     {lang === "fa" ? "ایمیل" : "Email"}
                   </h3>

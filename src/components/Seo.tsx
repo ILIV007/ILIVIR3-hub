@@ -47,11 +47,6 @@ const jsonLd = {
     name: "ILIV007",
     url: "https://github.com/ILIV007",
   },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${BASE_URL}/projects?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 };
 
 function injectJsonLd() {
@@ -81,7 +76,7 @@ export function Seo({ title, description, path = "" }: SeoProps) {
   useEffect(() => {
     const fullTitle = title ? `${title} — ${SITE_NAME}` : `${SITE_NAME} — Tech Command Center`;
     document.title = fullTitle;
-    document.documentElement.lang = lang;
+    // Note: <html lang> and <html dir> are managed by LangContext — don't set them here.
 
     const desc =
       description ||

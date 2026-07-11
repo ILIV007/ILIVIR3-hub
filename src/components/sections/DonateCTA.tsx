@@ -17,7 +17,7 @@ export function DonateCTA() {
             </div>
             <h3 className="text-lg font-bold text-white mb-1">{t("Support the Project", "از پروژه حمایت کنید")}</h3>
             <p className="text-navy-400 text-sm mb-4 max-w-md mx-auto">{t("Your support helps keep these projects free and open source.", "حمایت شما به حفظ رایگان و متن‌باز بودن این پروژه‌ها کمک می‌کند.")}</p>
-            <Button variant="outline" href="https://donate-iv.pages.dev/" size="md" icon={<ExternalLink className="w-4 h-4" />}>
+            <Button variant="outline" href="https://iliv007-donate.pages.dev" size="md" icon={<ExternalLink className="w-4 h-4" />}>
               {t("Donate", "حمایت")}
             </Button>
           </GlassPanel>

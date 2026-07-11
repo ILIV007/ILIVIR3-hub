@@ -1,19 +1,25 @@
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
-import { getProjectBySlug } from "@data/projects";
+import { getProjectBySlug, projects } from "@data/projects";
 import { Badge } from "@components/ui/Badge";
 import { statusToBadgeVariant } from "@components/ui/badge-variants";
 import { Button } from "@components/ui/Button";
 import { GlassPanel } from "@components/ui/GlassPanel";
+import { Seo } from "@components/Seo";
 import { Github, ExternalLink, ArrowLeft, ArrowRight, Bot, Tag, Calendar, Send } from "lucide-react";
 import { useLang } from "@context/useLang";
 
 export function ProjectDetails() {
   const { slug } = useParams<{ slug: string }>();
   const { lang, dir } = useLang();
+  const location = useLocation();
   const project = getProjectBySlug(slug || "");
 
   if (!project) return <Navigate to="/404" replace />;
+
+  // Per-project SEO overrides the homepage defaults
+  const seoTitle = lang === "fa" ? project.titleFa : project.title;
+  const seoDesc = lang === "fa" ? project.shortDescFa : project.shortDesc;
 
   const backIcon = dir === "rtl" ? <ArrowRight className="w-3.5 h-3.5" /> : <ArrowLeft className="w-3.5 h-3.5" />;
   const breadcrumbSep = dir === "rtl" ? <ArrowRight className="w-3 h-3" /> : <ArrowLeft className="w-3 h-3" />;
@@ -30,6 +36,7 @@ export function ProjectDetails() {
   return (
     <main className="pt-20 pb-16 px-4">
       <div className="max-w-3xl mx-auto">
+        <Seo title={seoTitle} description={seoDesc} path={location.pathname} />
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-xs text-navy-600 mb-4 flex-wrap">
@@ -109,8 +116,6 @@ export function ProjectDetails() {
     </main>
   );
 }
-
-import { projects } from "@data/projects";
 
 function RelatedProjects({ currentSlug, category }: { currentSlug: string; category: string }) {
   const { lang } = useLang();

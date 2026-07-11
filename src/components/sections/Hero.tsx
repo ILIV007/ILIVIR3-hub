@@ -91,7 +91,7 @@ export function Hero() {
             transition={{ duration: 1, delay: 1 }}
             className="mt-12 text-navy-600 text-xs font-mono"
           >
-            <span className="inline-block w-2 h-2 rounded-full bg-accent-cyan ms-2 animate-pulse" />
+            <span className="inline-block w-2 h-2 rounded-full bg-accent-cyan me-2 animate-pulse" />
             {t("Built by ILIV007", "ساخته‌شده توسط ILIV007")}
           </motion.div>
         </div>

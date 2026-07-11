@@ -1,3 +1,4 @@
+import { useState, useMemo } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { SectionTitle } from "@components/ui/SectionTitle";
@@ -35,8 +36,6 @@ const categoryFilters: Array<{ value: "All" | ProjectCategory; labelEn: string; 
   { value: "Trading", labelEn: "Trading", labelFa: "ترید" },
   { value: "Tool", labelEn: "Tool", labelFa: "ابزار" },
 ];
-
-import { useState, useMemo } from "react";
 
 export function Projects() {
   const { lang, dir } = useLang();

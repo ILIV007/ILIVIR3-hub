@@ -5,7 +5,7 @@
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-F69652?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-ILIVIR3-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ILIVIR3)
 [![GitHub](https://img.shields.io/badge/GitHub-ILIV007-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ILIV007/ILIVIR3-hub)
-![Version](https://img.shields.io/badge/Version-11.3-blue?style=flat-square)
+![Version](https://img.shields.io/badge/Version-11.4-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ---
@@ -201,6 +201,27 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 ## 📦 Changelog
+
+### v11.4.0 — Bug fixes from full code audit
+
+- **CRITICAL**: Generated PNG OG image (`og-image.png`) — SVG was unsupported by Facebook/Twitter/LinkedIn/Slack previews
+- **HIGH**: Added per-project SEO — every project detail page now has its own title/description/OG tags
+- **HIGH**: Added 404-specific SEO — 404 page now shows "Page Not Found" instead of homepage title
+- **HIGH**: Fixed RTL bug in Contact.tsx — `md:text-left` → `md:text-start`
+- **HIGH**: Fixed Donate URL mismatch — DonateCTA now uses the same URL as the projects data
+- **HIGH**: Memoized LangContext value — prevents unnecessary re-renders on every navigation
+- **HIGH**: Removed misleading JSON-LD SearchAction (no actual search functionality exists)
+- **MEDIUM**: Removed unused `@react-three/drei` dependency (was in deps but never imported)
+- **MEDIUM**: Removed dead `lightRef` + misleading comment in AICore.tsx
+- **MEDIUM**: Added Escape key + route-change close behavior to navbar mobile menu
+- **MEDIUM**: Added `aria-controls` linking mobile menu button to menu container
+- **LOW**: Fixed Hero pulse dot RTL — `ms-2` → `me-2`
+- **LOW**: Reorganized imports in Projects.tsx and ProjectDetails.tsx
+- **LOW**: Removed redundant `document.documentElement.lang` assignment in Seo.tsx
+- Updated Lyra/AI-admin/Fredy descriptions with example channels (@Lyra_IVbot, @ILIVIR3)
+- Updated project release dates for new projects to 2026
+- Slowed down wormhole animation on 404 page (was too fast)
+- Added dim overlay on 404 page for better text readability over the wormhole
 
 ### v11.3.0 — Deploy Fix
 

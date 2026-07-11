@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { motion } from "motion/react";
 import { Button } from "@components/ui/Button";
+import { Seo } from "@components/Seo";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useLang } from "@context/useLang";
 import { usePrefersReducedMotion } from "@hooks/usePrefersReducedMotion";
@@ -17,10 +18,15 @@ export function NotFound() {
   const backIcon = dir === "rtl" ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />;
 
   return (
+    <>
+      <Seo
+        title={lang === "fa" ? "صفحه یافت نشد" : "Page Not Found"}
+        description={lang === "fa" ? "صفحه مورد نظر شما یافت نشد — توسط کرمچاله بلعیده شد." : "The page you are looking for does not exist — it was devoured by a wormhole."}
+        path="/404"
+      />
     <main className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950 via-deep-navy to-navy-950" />
-      <div className="absolute inset-0 bg-radial-accent opacity-40" />
 
       {/* 3D Wormhole scene — fills the whole page behind content */}
       {prefersReducedMotion ? (
@@ -41,9 +47,19 @@ export function NotFound() {
         </div>
       )}
 
+      {/* Dim overlay — ensures text stays readable over the wormhole */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(5,8,22,0.75) 0%, rgba(5,8,22,0.55) 50%, rgba(5,8,22,0.3) 100%)",
+        }}
+        aria-hidden="true"
+      />
+
       {/* Content overlay */}
       <motion.div
-        className="relative z-10 text-center max-w-md"
+        className="relative z-10 text-center max-w-md px-6 py-8 rounded-2xl"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
@@ -54,13 +70,16 @@ export function NotFound() {
           transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 120 }}
           className="mb-6"
         >
-          <h1 className="text-7xl sm:text-8xl font-black gradient-text animate-gradient drop-shadow-[0_0_30px_rgba(168,85,247,0.5)]">
+          <h1
+            className="text-7xl sm:text-8xl font-black gradient-text animate-gradient"
+            style={{ filter: "drop-shadow(0 0 20px rgba(168,85,247,0.6))" }}
+          >
             404
           </h1>
         </motion.div>
 
         <motion.p
-          className="text-lg sm:text-xl text-white font-semibold mb-2"
+          className="text-lg sm:text-xl text-white font-semibold mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
@@ -69,7 +88,7 @@ export function NotFound() {
         </motion.p>
 
         <motion.p
-          className="text-navy-400 text-sm mb-8 max-w-sm mx-auto leading-relaxed"
+          className="text-navy-200 text-sm mb-8 max-w-sm mx-auto leading-relaxed drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.75 }}
@@ -91,7 +110,7 @@ export function NotFound() {
 
         {/* Tiny hint */}
         <motion.div
-          className="mt-10 text-navy-600 text-xs font-mono flex items-center justify-center gap-2"
+          className="mt-10 text-navy-300 text-xs font-mono flex items-center justify-center gap-2 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
@@ -101,5 +120,6 @@ export function NotFound() {
         </motion.div>
       </motion.div>
     </main>
+    </>
   );
 }

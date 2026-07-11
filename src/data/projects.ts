@@ -36,11 +36,11 @@ export const projects: Project[] = [
     category: "AI",
     status: "Active",
     version: "0.7.3",
-    released: "2025-09",
+    released: "2026-01",
     description:
-      "A Telegram channel content-processing bot built on Cloudflare Workers. Accepts raw posts in private chat, cleans them, rewrites them with AI (Gemini or OpenRouter), formats them with HTML, and publishes them to your channel. Can also edit posts already published where the bot is an admin. Runs 100% on the free tier — no servers, no databases, no monthly bill.",
+      "A Telegram channel content-processing bot built on Cloudflare Workers. Accepts raw posts in private chat, cleans them, rewrites them with AI (Gemini or OpenRouter), formats them with HTML, and publishes them to your channel. Can also edit posts already published where the bot is an admin. Runs 100% on the free tier — no servers, no databases, no monthly bill. Live example: @ILIVIR3 channel on Telegram.",
     descriptionFa:
-      "ربات پردازش محتوای کانال تلگرام روی Cloudflare Workers. پست‌های خام را در چت خصوصی دریافت می‌کند، پاکسازی و با AI (Gemini یا OpenRouter) بازنویسی می‌کند، با HTML فرمت می‌کند و در کانال شما منتشر می‌کند. کل سیستم روی免费 Cloudflare Workers اجرا می‌شود — بدون سرور، بدون دیتابیس، بدون قبض ماهانه.",
+      "ربات پردازش محتوای کانال تلگرام روی Cloudflare Workers. پست‌های خام را در چت خصوصی دریافت می‌کند، پاکسازی و با AI (Gemini یا OpenRouter) بازنویسی می‌کند، با HTML فرمت می‌کند و در کانال شما منتشر می‌کند. کل سیستم روی لایه رایگان Cloudflare Workers اجرا می‌شود — بدون سرور، بدون دیتابیس، بدون قبض ماهانه. نمونه واقعی استفاده: کانال @ILIVIR3 در تلگرام.",
     shortDesc: "Telegram channel admin bot with AI rewriting",
     shortDescFa: "ربات ادمین کانال با بازنویسی AI",
     github: "https://github.com/ILIV007/AI-admin",
@@ -79,11 +79,11 @@ export const projects: Project[] = [
     category: "AI",
     status: "Active",
     version: "1.0",
-    released: "2025-10",
+    released: "2026-02",
     description:
-      "AI Prompt Optimizer Telegram bot built on Cloudflare Workers. Takes raw user input and turns it into optimized, professional-grade prompts for any AI platform. Uses a 4-D methodology (Deconstruct → Diagnose → Develop → Deliver) to analyze intent, fill gaps, and produce structured prompts with copy-friendly code blocks. Multilingual: English, Persian, Russian.",
+      "AI Prompt Optimizer Telegram bot built on Cloudflare Workers. Takes raw user input and turns it into optimized, professional-grade prompts for any AI platform. Uses a 4-D methodology (Deconstruct → Diagnose → Develop → Deliver) to analyze intent, fill gaps, and produce structured prompts with copy-friendly code blocks. Multilingual: English, Persian, Russian. Test it live: @Lyra_IVbot on Telegram.",
     descriptionFa:
-      "ربات بهینه‌ساز پرامپت AI تلگرام روی Cloudflare Workers. ورودی خام کاربر را به پرامپت حرفه‌ای و بهینه برای هر پلتفرم AI تبدیل می‌کند. از روش‌شناسی ۴ مرحله‌ای (Deconstruct → Diagnose → Develop → Deliver) برای تحلیل intent، پر کردن شکاف‌ها و تولید پرامپت ساختاریافته با بلاک‌های کپی کد استفاده می‌کند. چندزبانه: انگلیسی، فارسی، روسی.",
+      "ربات بهینه‌ساز پرامپت AI تلگرام روی Cloudflare Workers. ورودی خام کاربر را به پرامپت حرفه‌ای و بهینه برای هر پلتفرم AI تبدیل می‌کند. از روش‌شناسی ۴ مرحله‌ای (Deconstruct → Diagnose → Develop → Deliver) برای تحلیل intent، پر کردن شکاف‌ها و تولید پرامپت ساختاریافته با بلاک‌های کپی کد استفاده می‌کند. چندزبانه: انگلیسی، فارسی، روسی. تست زنده: @Lyra_IVbot در تلگرام.",
     shortDesc: "AI prompt optimizer with 4-D methodology",
     shortDescFa: "بهینه‌ساز پرامپت AI با روش ۴ مرحله‌ای",
     github: "https://github.com/ILIV007/Lyra",
@@ -126,11 +126,11 @@ export const projects: Project[] = [
     category: "AI",
     status: "Active",
     version: "1.3.0",
-    released: "2025-11",
+    released: "2026-03",
     description:
-      "Production-ready serverless Content Operating System that automatically collects, processes, and publishes high-quality developer content to Telegram channels. Built entirely on Cloudflare's free tier. Plugin-based architecture with 12 content source providers (GitHub, NewsAPI, NASA, Hacker News, Dev.to, Reddit, XKCD, etc.), 6-dimension content quality scoring, smart scheduler, humanized post formatting, and 10-screen admin control panel.",
+      "Production-ready serverless Content Operating System that automatically collects, processes, and publishes high-quality developer content to Telegram channels. Built entirely on Cloudflare's free tier. Plugin-based architecture with 12 content source providers (GitHub, NewsAPI, NASA, Hacker News, Dev.to, Reddit, XKCD, etc.), 6-dimension content quality scoring, smart scheduler, humanized post formatting, and 10-screen admin control panel. Live example: @ILIVIR3 channel on Telegram.",
     descriptionFa:
-      "سیستم‌عامل محتوای سرورلس آماده پروداکشن که محتوای باکیفیت توسعه‌دهنده را به‌صورت خودکار جمع‌آوری، پردازش و در کانال‌های تلگرام منتشر می‌کند. کاملاً روی免费 Cloudflare. معماری پلاگین‌محور با ۱۲ منبع محتوا (GitHub، NewsAPI، NASA، Hacker News، Dev.to، Reddit، XKCD و...)، امتیازدهی ۶ بعدی کیفیت محتوا، زمان‌بند هوشمند، فرمت انسانی پست و پنل ادمین ۱۰ صفحه‌ای.",
+      "سیستم‌عامل محتوای سرورلس آماده پروداکشن که محتوای باکیفیت توسعه‌دهنده را به‌صورت خودکار جمع‌آوری، پردازش و در کانال‌های تلگرام منتشر می‌کند. کاملاً روی لایه رایگان Cloudflare. معماری پلاگین‌محور با ۱۲ منبع محتوا (GitHub، NewsAPI، NASA، Hacker News، Dev.to، Reddit، XKCD و...)، امتیازدهی ۶ بعدی کیفیت محتوا، زمان‌بند هوشمند، فرمت انسانی پست و پنل ادمین ۱۰ صفحه‌ای. نمونه واقعی استفاده: کانال @ILIVIR3 در تلگرام.",
     shortDesc: "AI content engine for developer channels",
     shortDescFa: "موتور محتوای AI برای کانال‌های دولوپر",
     github: "https://github.com/ILIV007/Fredy-admin",
@@ -147,7 +147,7 @@ export const projects: Project[] = [
     category: "AI",
     status: "In Development",
     version: "0.8.0",
-    released: "2025-12",
+    released: "2026-04",
     description:
       "Autonomous AI development platform designed to run on Cloudflare Workers. Complete ecosystem for managing AI agents, code reviews, approvals, memory management, and deployments — all serverless at the edge. Multi-agent system (Builder, Reviewer, Analyzer, Tester, Deployer), 7-stage code review pipeline, multi-level approval workflows with escalation, persistent memory with versioning and rollback, real-time monitoring, and security-first design with secret scanning and RBAC.",
     descriptionFa:
@@ -167,7 +167,7 @@ export const projects: Project[] = [
     category: "Web",
     status: "In Development",
     version: "4.5",
-    released: "2025-11",
+    released: "2026-03",
     description:
       "Gaming website for game news and digital product sales. Frontend on Cloudflare Pages and backend on Cloudflare Workers. Single consolidated stylesheet (no render-blocking @import), right sidebar navigation with mobile drawer, admin panel with 10 tabs (Posts, Products, Media, Users, Audit Logs, Settings, etc.), and optimized API with bootstrap endpoint and Cloudflare Cache API. Includes Pac Mode and background music.",
     descriptionFa:
@@ -254,7 +254,7 @@ export const projects: Project[] = [
     category: "Trading",
     status: "Beta",
     version: "0.1.23",
-    released: "2025-12",
+    released: "2026-04",
     description:
       "MetaTrader 5 Expert Advisor (EA) — beta release. Modular architecture with 25+ components: Audit, Bootstrap, Config, Contracts, Core, Diagnostics, Engines, Events, Infrastructure, Interfaces, Optimization, Performance, Plugins, Profiles, Recovery, Replay, Strategies, StrategySDK, Testing, Trading, Validation, and more. Designed for serious algorithmic trading with full testing and validation pipeline.",
     descriptionFa:
@@ -273,7 +273,7 @@ export const projects: Project[] = [
     titleFa: "ILIVIR3 HUB",
     category: "Web",
     status: "Active",
-    version: "11.0.0",
+    version: "11.4.0",
     released: "2025-01",
     description:
       "The Central Portal for ILIVIR3 Telegram Bot & Projects. Modern, responsive single-page application deployed on Cloudflare Pages. Bilingual (EN/FA) with full RTL support, glassmorphism UI, 3D hero scene, code-splitting, lazy-loaded routes, and SEO-ready with Open Graph, Twitter Card, JSON-LD structured data.",

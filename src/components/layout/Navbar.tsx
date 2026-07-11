@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Github, Menu, X, Globe } from "lucide-react";
@@ -10,10 +10,27 @@ const navLinks = [
   { to: "/lab", label: "Lab", labelFa: "آزمایشگاه" },
 ];
 
+const MOBILE_MENU_ID = "mobile-menu";
+
 export function Navbar() {
   const { lang, toggleLang } = useLang();
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
+
+  // Close the mobile menu on Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
+  // Close the mobile menu when the route changes
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-deep-navy/80 backdrop-blur-md">
@@ -64,6 +81,7 @@ export function Navbar() {
             className="md:hidden text-navy-400 hover:text-white"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
+            aria-controls={MOBILE_MENU_ID}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -74,6 +92,7 @@ export function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            id={MOBILE_MENU_ID}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

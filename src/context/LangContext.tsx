@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { useState, useEffect, useCallback, useMemo, type ReactNode } from "react";
 import { LangContext, type Lang, type LangContextType } from "./useLang";
 
 const STORAGE_KEY = "ilivir3-lang";
@@ -49,7 +49,11 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const t = useCallback((en: string, fa: string) => (lang === "fa" ? fa : en), [lang]);
   const dir = lang === "fa" ? "rtl" : "ltr";
 
-  const value: LangContextType = { lang, setLang, toggleLang, t, dir };
+  // Memoize the context value so consumers don't re-render on every location change
+  const value: LangContextType = useMemo(
+    () => ({ lang, setLang, toggleLang, t, dir }),
+    [lang, setLang, toggleLang, t, dir]
+  );
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }

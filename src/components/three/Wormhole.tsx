@@ -3,18 +3,17 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 /**
- * Wormhole — a cute animated black hole that "eats everything".
+ * Wormhole — a cute animated black hole that "eats everything" (slow & dreamy).
  *
  * Composition:
  *  - Central black sphere (the singularity)
  *  - Soft glowing halo around the event horizon
  *  - Two accretion-disk rings rotating at different speeds (pastel cyan + purple)
- *  - Particle field (~400 particles) spiraling inward; each particle resets to the
+ *  - Particle field (~280 particles) spiraling inward; each particle resets to the
  *    outer edge when it gets too close to the center, giving the "eating" effect.
  *  - Distant star field in the background for depth.
  *
- * The whole thing uses additive emissive materials so it glows softly against
- * the dark page background. Colors are deliberately pastel/cute.
+ * Tuned to be slow, calm and dreamy (not chaotic). Pastel palette.
  */
 export function Wormhole() {
   const groupRef = useRef<THREE.Group>(null);
@@ -24,7 +23,7 @@ export function Wormhole() {
   const particlesRef = useRef<THREE.Points>(null);
 
   // === Particles spiraling inward ===========================================
-  const PARTICLE_COUNT = 420;
+  const PARTICLE_COUNT = 280;
 
   const particleData = useMemo(() => {
     const data: { angle: number; radius: number; fallSpeed: number; spinSpeed: number; y: number; size: number; colorIdx: number }[] = [];
@@ -32,8 +31,10 @@ export function Wormhole() {
       data.push({
         angle: Math.random() * Math.PI * 2,
         radius: 1.2 + Math.random() * 4.5,
-        fallSpeed: 0.15 + Math.random() * 0.45,
-        spinSpeed: 0.4 + Math.random() * 1.2,
+        // Slow, calm falling — roughly 4-8 seconds for a particle to be "eaten"
+        fallSpeed: 0.04 + Math.random() * 0.08,
+        // Slow spin — keeps the spiral readable
+        spinSpeed: 0.15 + Math.random() * 0.35,
         y: (Math.random() - 0.5) * 0.6,
         size: 0.04 + Math.random() * 0.07,
         colorIdx: Math.floor(Math.random() * 3),
@@ -75,7 +76,7 @@ export function Wormhole() {
 
   // === Background stars =====================================================
   const starsGeo = useMemo(() => {
-    const count = 300;
+    const count = 220;
     const positions = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       // Spherical shell far away
@@ -97,25 +98,25 @@ export function Wormhole() {
     // Cap delta so a long pause (e.g. tab backgrounded) doesn't fling particles across the scene.
     const dt = Math.min(delta, 0.05);
 
-    // Disk rotations
+    // Disk rotations — slow and gentle
     if (disk1Ref.current) {
-      disk1Ref.current.rotation.z = t * 0.6;
-      disk1Ref.current.rotation.x = Math.sin(t * 0.3) * 0.05 + 0.15;
+      disk1Ref.current.rotation.z = t * 0.18;
+      disk1Ref.current.rotation.x = Math.sin(t * 0.15) * 0.04 + 0.15;
     }
     if (disk2Ref.current) {
-      disk2Ref.current.rotation.z = -t * 0.4;
-      disk2Ref.current.rotation.x = Math.cos(t * 0.4) * 0.05 - 0.15;
+      disk2Ref.current.rotation.z = -t * 0.12;
+      disk2Ref.current.rotation.x = Math.cos(t * 0.2) * 0.04 - 0.15;
     }
 
-    // Halo pulse
+    // Halo pulse — slow breathing
     if (haloRef.current) {
-      const s = 1 + Math.sin(t * 2) * 0.08;
+      const s = 1 + Math.sin(t * 1.0) * 0.05;
       haloRef.current.scale.set(s, s, s);
       const mat = haloRef.current.material as THREE.MeshBasicMaterial;
-      mat.opacity = 0.35 + Math.sin(t * 2) * 0.1;
+      mat.opacity = 0.3 + Math.sin(t * 1.0) * 0.08;
     }
 
-    // Particle spiral inward
+    // Particle spiral inward — slow fall
     if (particlesRef.current) {
       const posAttr = particlesRef.current.geometry.getAttribute("position") as THREE.BufferAttribute;
       for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -131,17 +132,17 @@ export function Wormhole() {
         }
 
         posAttr.setX(i, Math.cos(d.angle) * d.radius);
-        posAttr.setY(i, d.y * (d.radius / 4)); // squash toward plane as it falls in)
+        posAttr.setY(i, d.y * (d.radius / 4));
         posAttr.setZ(i, Math.sin(d.angle) * d.radius);
       }
       posAttr.needsUpdate = true;
-      particlesRef.current.rotation.y = t * 0.05;
+      particlesRef.current.rotation.y = t * 0.03;
     }
 
-    // Whole scene gentle drift
+    // Whole scene gentle drift — very subtle
     if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(t * 0.15) * 0.15;
-      groupRef.current.rotation.x = Math.cos(t * 0.2) * 0.08;
+      groupRef.current.rotation.y = Math.sin(t * 0.08) * 0.08;
+      groupRef.current.rotation.x = Math.cos(t * 0.1) * 0.04;
     }
   });
 
@@ -161,13 +162,13 @@ export function Wormhole() {
       {/* Event horizon glow — soft halo */}
       <mesh ref={haloRef}>
         <sphereGeometry args={[0.7, 32, 32]} />
-        <meshBasicMaterial color="#a855f7" transparent opacity={0.35} side={THREE.BackSide} />
+        <meshBasicMaterial color="#a855f7" transparent opacity={0.3} side={THREE.BackSide} />
       </mesh>
 
       {/* Outer glow */}
       <mesh>
         <sphereGeometry args={[0.95, 32, 32]} />
-        <meshBasicMaterial color="#67e8f9" transparent opacity={0.12} side={THREE.BackSide} />
+        <meshBasicMaterial color="#67e8f9" transparent opacity={0.1} side={THREE.BackSide} />
       </mesh>
 
       {/* Accretion disk — ring 1 (cyan, inner) */}

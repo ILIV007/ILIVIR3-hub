@@ -13,7 +13,6 @@ export function AICore() {
   const nodesRef = useRef<THREE.Group>(null);
   const streamsRef = useRef<THREE.LineSegments>(null);
   const particlesRef = useRef<THREE.Points>(null);
-  const lightRef = useRef<THREE.PointLight>(null);
 
   const nodesData = useMemo(() => {
     const nodes: { angle: number; radius: number; speed: number; y: number }[] = [];
@@ -121,12 +120,11 @@ export function AICore() {
 
   return (
     <group ref={groupRef}>
-      {/* Dynamic Light that follows mouse */}
-      <pointLight 
-        ref={lightRef} 
-        position={[0, 2, 5]} 
-        intensity={1.5} 
-        color="#40e0d0" 
+      {/* Soft static fill light — keeps the emissive materials readable */}
+      <pointLight
+        position={[0, 2, 5]}
+        intensity={1.5}
+        color="#40e0d0"
         distance={10}
         decay={2}
       />
