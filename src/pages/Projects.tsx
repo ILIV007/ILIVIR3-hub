@@ -7,7 +7,7 @@ import { Badge } from "@components/ui/Badge";
 import { statusToBadgeVariant } from "@components/ui/badge-variants";
 import { projects } from "@data/projects";
 import type { Project, ProjectCategory, ProjectStatus } from "@data/projects";
-import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2, Globe, Wrench, CandlestickChart } from "lucide-react";
+import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2, Globe, Wrench, CandlestickChart, Send } from "lucide-react";
 import { useLang } from "@context/useLang";
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -162,6 +162,18 @@ export function Projects() {
                       aria-label="GitHub repository"
                     >
                       <Github className="w-5 h-5" />
+                    </a>
+                  )}
+                  {project.telegram && (
+                    <a
+                      href={project.telegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative z-[2] text-navy-400 hover:text-accent-cyan transition-colors"
+                      title="Telegram"
+                      aria-label="Telegram bot or channel"
+                    >
+                      <Send className="w-5 h-5" />
                     </a>
                   )}
                   {project.demo && (
