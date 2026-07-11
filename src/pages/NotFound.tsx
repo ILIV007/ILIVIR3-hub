@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Button } from "@components/ui/Button";
 import { ArrowLeft, ArrowRight, Orbit } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function NotFound() {
   const { lang, dir } = useLang();

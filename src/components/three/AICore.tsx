@@ -2,11 +2,7 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-interface AICoreProps {
-  mousePos?: React.MutableRefObject<THREE.Vector2>;
-}
-
-export function AICore({ mousePos }: AICoreProps) {
+export function AICore() {
   const groupRef = useRef<THREE.Group>(null);
   const coreRef = useRef<THREE.Mesh>(null);
   const innerShellRef = useRef<THREE.Mesh>(null);
@@ -74,19 +70,8 @@ export function AICore({ mousePos }: AICoreProps) {
     return geo;
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const t = state.clock.elapsedTime;
-
-    // Mouse Reaction: Light Tracking & Subtle Rotation
-    if (mousePos && groupRef.current && lightRef.current) {
-       // Light follows mouse
-       lightRef.current.position.x = THREE.MathUtils.lerp(lightRef.current.position.x, mousePos.current.x * 5, delta * 3);
-       lightRef.current.position.y = THREE.MathUtils.lerp(lightRef.current.position.y, mousePos.current.y * 5 + 2, delta * 3);
-       
-       // Very subtle group rotation based on mouse
-       groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, mousePos.current.x * 0.1, delta * 2);
-       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mousePos.current.y * 0.1, delta * 2);
-    }
 
     if (coreRef.current) {
       coreRef.current.rotation.y = t * 0.3;

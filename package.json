@@ -1,6 +1,6 @@
 {
   "name": "ilivir3-hub",
-  "version": "3.0.0",
+  "version": "11.0.0",
   "private": true,
   "description": "ILIVIR3 — Tech Command Center. Central portal for the ILIVIR3 Telegram bot ecosystem.",
   "type": "module",
@@ -11,7 +11,11 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -31,6 +35,13 @@
     "typescript": "^5.8.0",
     "vite": "^6.0.0",
     "tailwindcss": "^4.0.0",
-    "@tailwindcss/vite": "^4.0.0"
+    "@tailwindcss/vite": "^4.0.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.0",
+    "globals": "^15.0.0",
+    "prettier": "^3.0.0"
   }
 }

@@ -1,16 +1,5 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
-
-type Lang = "en" | "fa";
-
-interface LangContextType {
-  lang: Lang;
-  setLang: (lang: Lang) => void;
-  toggleLang: () => void;
-  t: (en: string, fa: string) => string;
-  dir: "ltr" | "rtl";
-}
-
-const LangContext = createContext<LangContextType | null>(null);
+import { useState, useEffect, useCallback, type ReactNode } from "react";
+import { LangContext, type Lang, type LangContextType } from "./useLang";
 
 const STORAGE_KEY = "ilivir3-lang";
 
@@ -22,7 +11,6 @@ function getInitialLang(): Lang {
   } catch {
     /* ignore */
   }
-  // Detect from browser language
   const nav = navigator.language.toLowerCase();
   if (nav.startsWith("fa") || nav.startsWith("persian")) return "fa";
   return "en";
@@ -52,7 +40,6 @@ export function LangProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Sync <html lang> and <html dir> whenever language changes
   useEffect(() => {
     const root = document.documentElement;
     root.lang = lang;
@@ -62,15 +49,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const t = useCallback((en: string, fa: string) => (lang === "fa" ? fa : en), [lang]);
   const dir = lang === "fa" ? "rtl" : "ltr";
 
-  return (
-    <LangContext.Provider value={{ lang, setLang, toggleLang, t, dir }}>
-      {children}
-    </LangContext.Provider>
-  );
-}
+  const value: LangContextType = { lang, setLang, toggleLang, t, dir };
 
-export function useLang() {
-  const ctx = useContext(LangContext);
-  if (!ctx) throw new Error("useLang must be used within LangProvider");
-  return ctx;
+  return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Github, Menu, X, Globe } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 const navLinks = [
   { to: "/", label: "Home", labelFa: "خانه" },

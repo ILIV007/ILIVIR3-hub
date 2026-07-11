@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { SectionTitle } from "@components/ui/SectionTitle";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { FlaskConical } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function Lab() {
   const { lang } = useLang();

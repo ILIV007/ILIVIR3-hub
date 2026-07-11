@@ -3,7 +3,7 @@ import { GlassPanel } from "@components/ui/GlassPanel";
 import { Button } from "@components/ui/Button";
 import { telegramLinks } from "@data/socials";
 import { Send, Radio, MessageCircle, Users } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function TelegramCTA() {
   const { t } = useLang();

@@ -5,7 +5,7 @@
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-F69652?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-ILIVIR3-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ILIVIR3)
 [![GitHub](https://img.shields.io/badge/GitHub-ILIV007-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ILIV007/ILIVIR3-hub)
-![Version](https://img.shields.io/badge/Version-3.0-blue?style=flat-square)
+![Version](https://img.shields.io/badge/Version-11.0-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ---
@@ -197,6 +197,75 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - **Live Site:** [ilivir3.pages.dev](https://ilivir3.pages.dev/)
 - **GitHub:** [@ILIV007](https://github.com/ILIV007)
 - **Email:** iliv007@proton.me
+
+---
+
+## 📦 Changelog
+
+### v11.0.0 — Refactor & Debug Release
+
+Major refactor focused on bug fixes, dead-code removal, performance, accessibility, and SEO.
+
+**Breaking / structural:**
+- Removed 17 dead-code files (unused three/sections/hooks/router/lib/CSS)
+- Removed legacy `tailwind.config.js` (Tailwind v4 uses CSS-first `@theme`)
+- Removed duplicate `techFeedItems` data in `stats.ts`
+
+**Bug fixes:**
+- `Button` now distinguishes internal vs external links; `target="_blank"` only for external
+- `LangContext` persists choice to `localStorage`, syncs `<html lang>` and `<html dir>`, detects browser language
+- Fixed broken `#projects` anchor → router `to="/projects"`
+- Replaced `<Radio>` icon for YouTube with `<Youtube>` across the codebase
+- `ProjectDetails` now renders `<NotFound />` via `<Navigate>` instead of redirecting to `/404`
+- Fixed invalid `<a><a>` nesting in project cards via stretched-link pattern
+- Fixed invalid `<button>` inside `<a>` in NotFound / ProjectDetails
+- Removed `as any` cast in `TechFeed` (typed Badge variants)
+- `wrangler.toml` `compatibility_date` corrected to a valid past date
+
+**AI Systems mobile bug:**
+- Horizontal-scroll / "stretchy" drag on mobile fixed via `min-w-0` + `overflow-hidden`
+- Eliminated content repetition by giving each bot card a distinct accent, tagline, and CTA
+- Feature grid now collapses to single column on mobile for compactness
+
+**CSS / Styling:**
+- Defined missing `animate-gradient` keyframes (was referenced but never defined)
+- Loaded **Vazirmatn** font for proper Persian text rendering
+- Added `prefers-reduced-motion` media query for accessibility
+- Added `overflow-x: hidden` on `body`
+
+**Performance (5× smaller initial bundle):**
+- Code-splitting via `manualChunks`: `react-vendor`, `three-vendor`, `motion-vendor`, `icons-vendor`
+- Lazy-loaded secondary routes (`/projects`, `/project/:slug`, `/lab`, `/404`)
+- Lazy-mounted hero 3D scene (only when scrolled into view on `lg+` screens)
+- Merged two separate Canvases into one in Hero (halves WebGL context cost)
+- Initial bundle: **363 KB → 78 KB gzip**
+
+**SEO / Meta:**
+- Added Open Graph, Twitter Card, canonical URL
+- Added `sitemap.xml` and updated `robots.txt` with sitemap reference
+- Branded SVG `favicon.svg` and `og-image.svg`
+- Dynamic `<html lang>` based on selected language
+- Added `apple-touch-icon`, `color-scheme`, `theme-color`
+
+**Quality / DX:**
+- Added `ErrorBoundary` to prevent full-app crashes from Three.js errors
+- Added `usePrefersReducedMotion` and `useInView` hooks
+- Added ESLint + Prettier configuration
+- Added GitHub Actions CI workflow (typecheck + build on PR)
+- Added `.gitignore`, `.nvmrc`
+- Updated `README.md`, `package.json` (with `engines` field)
+- Security headers expanded in `public/_headers`
+- Cache headers tuned for static assets
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Real-time GitHub stats integration (live stars / commits / forks)
+- [ ] Blog / articles section
+- [ ] Dark / light theme toggle
+- [ ] Multilingual expansion beyond en/fa
+- [ ] PWA offline support
 
 ---
 

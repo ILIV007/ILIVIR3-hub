@@ -5,15 +5,17 @@ import { Badge } from "@components/ui/Badge";
 import { techFeedItems } from "@data/techFeed";
 import type { TechFeedItem } from "@data/techFeed";
 import { Newspaper, ExternalLink, Calendar } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
-type BadgeVariant = "active" | "beta" | "info" | "default";
+type BadgeVariant = "active" | "beta" | "info" | "default" | "dev";
 
 const tagColors: Record<string, BadgeVariant> = {
   React: "info",
   CSS: "beta",
   AI: "active",
+  Cloudflare: "info",
   DevOps: "default",
+  Trading: "dev",
 };
 
 export function TechFeed() {

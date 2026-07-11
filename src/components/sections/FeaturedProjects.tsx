@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { SectionTitle } from "@components/ui/SectionTitle";
 import { Card } from "@components/ui/Card";
 import { Badge } from "@components/ui/Badge";
+import { statusToBadgeVariant } from "@components/ui/badge-variants";
 import { getFeatured } from "@data/projects";
-import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2 } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { Github, ExternalLink, ArrowRight, Bot, TrendingUp, Gamepad2, Globe, Wrench, CandlestickChart } from "lucide-react";
+import { useLang } from "@context/useLang";
 
 const iconMap: Record<string, React.ReactNode> = {
   AI: <Bot className="w-5 h-5" />,
   Finance: <TrendingUp className="w-5 h-5" />,
   Game: <Gamepad2 className="w-5 h-5" />,
-  Web: <ExternalLink className="w-5 h-5" />,
+  Web: <Globe className="w-5 h-5" />,
+  Tool: <Wrench className="w-5 h-5" />,
+  Trading: <CandlestickChart className="w-5 h-5" />,
 };
 
 export function FeaturedProjects() {
@@ -27,14 +30,14 @@ export function FeaturedProjects() {
           subtitle={lang === "fa" ? "برترین پروژه‌های فعال با بیشترین تأثیر" : "Top active projects with the most impact"}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {featured.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: (index % 3) * 0.1 }}
             >
               <Card className="relative h-full flex flex-col group">
                 <Link
@@ -48,11 +51,11 @@ export function FeaturedProjects() {
                     <div className="p-2 rounded-lg bg-accent-cyan-dim text-accent-cyan">
                       {iconMap[project.category] || <Bot className="w-5 h-5" />}
                     </div>
-                    <Badge variant={project.status === "Active" ? "active" : "beta"}>
-                      {project.status}
-                    </Badge>
+                    <Badge variant={statusToBadgeVariant(project.status)}>{project.status}</Badge>
                   </div>
-                  <span className="text-xs text-navy-500 font-mono">{project.category}</span>
+                  {project.version && (
+                    <span className="text-xs text-navy-500 font-mono">v{project.version}</span>
+                  )}
                 </div>
 
                 <h3 className="text-lg font-bold text-white mb-1.5 group-hover:text-accent-cyan transition-colors">
@@ -95,7 +98,7 @@ export function FeaturedProjects() {
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   )}
-                  <span className="ml-auto text-accent-cyan text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <span className="ms-auto text-accent-cyan text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                     {lang === "fa" ? "جزئیات" : "Details"} {arrow}
                   </span>
                 </div>

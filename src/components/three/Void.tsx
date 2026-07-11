@@ -2,18 +2,14 @@ import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-interface VoidProps {
-  mousePos?: React.MutableRefObject<THREE.Vector2>;
-}
-
-export function Void({ mousePos }: VoidProps) {
+export function Void() {
   const groupRef = useRef<THREE.Group>(null);
   const knotRef = useRef<THREE.Mesh>(null);
   const ring1Ref = useRef<THREE.Mesh>(null);
   const ring2Ref = useRef<THREE.Mesh>(null);
   const swarmRef = useRef<THREE.Points>(null);
   const dustRef = useRef<THREE.Points>(null);
-  
+
   const swarmGeo = useMemo(() => {
     const count = 1500;
     const pos = new Float32Array(count * 3);
@@ -46,25 +42,8 @@ export function Void({ mousePos }: VoidProps) {
     return geo;
   }, []);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const t = state.clock.elapsedTime;
-
-    // Mouse Reaction: Distortion & Glow
-    if (mousePos && groupRef.current) {
-       const dist = Math.sqrt(
-         Math.pow(mousePos.current.x, 2) + Math.pow(mousePos.current.y, 2)
-       );
-       // Subtle reaction to mouse proximity
-       const intensity = Math.max(0, 1 - dist * 0.5); 
-       groupRef.current.rotation.z = THREE.MathUtils.lerp(groupRef.current.rotation.z, mousePos.current.x * 0.1, delta * 2);
-       groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, mousePos.current.y * 0.1, delta * 2);
-       
-       if(swarmRef.current) {
-         const mat = swarmRef.current.material as THREE.PointsMaterial;
-         mat.size = 0.02 + intensity * 0.03;
-         mat.opacity = 0.4 + Math.sin(t * 2) * 0.2 + intensity * 0.3;
-       }
-    }
 
     if (knotRef.current) {
       knotRef.current.rotation.x = t * 0.15;
@@ -82,8 +61,7 @@ export function Void({ mousePos }: VoidProps) {
       ring2Ref.current.rotation.y = Math.cos(t * 0.4) * 0.2;
     }
 
-    if (swarmRef.current && !mousePos) {
-      // Fallback animation if no mouse prop
+    if (swarmRef.current) {
       swarmRef.current.rotation.y = t * 0.03;
       const mat = swarmRef.current.material as THREE.PointsMaterial;
       mat.opacity = 0.4 + Math.sin(t * 2) * 0.2;

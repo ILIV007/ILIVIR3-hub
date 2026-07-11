@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { Button } from "@components/ui/Button";
 import { Github, GitFork, Star, GitCommit } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function GitHubCTA() {
   const { t } = useLang();

@@ -49,13 +49,29 @@
   }
 
   /* When RTL, the layout direction flips automatically via dir="rtl" on <html>. */
-  [dir="rtl"] {
+  [dir="rtl"] body {
     text-align: right;
   }
 
   /* Improve number rendering for Persian context */
   [lang="fa"] .font-mono {
     font-family: "JetBrains Mono", "Vazirmatn", monospace;
+  }
+
+  /* Ensure Persian digits stay readable */
+  [lang="fa"] {
+    font-feature-settings: "ss01";
+  }
+
+  /* Better focus visibility for keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-cyan);
+    outline-offset: 2px;
+  }
+
+  /* Smooth anchor scrolling with navbar offset */
+  [id] {
+    scroll-margin-top: 5rem;
   }
 }
 

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { Button } from "@components/ui/Button";
 import { Heart, ExternalLink } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function DonateCTA() {
   const { t } = useLang();

@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { AICore } from "@components/three/AICore";
 import { Void } from "@components/three/Void";
@@ -13,7 +12,6 @@ import { usePrefersReducedMotion } from "@hooks/usePrefersReducedMotion";
  */
 export function HeroScene() {
   const prefersReducedMotion = usePrefersReducedMotion();
-  const mouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
   return (
     <Canvas
@@ -21,13 +19,6 @@ export function HeroScene() {
       dpr={[1, 1.5]}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       frameloop={prefersReducedMotion ? "demand" : "always"}
-      onPointerMove={(e) => {
-        // Normalized -1..1 coords; we don't pass them down (kept light) but could.
-        mouseRef.current = {
-          x: (e.clientX / window.innerWidth) * 2 - 1,
-          y: -(e.clientY / window.innerHeight) * 2 + 1,
-        };
-      }}
     >
       <ambientLight intensity={0.6} />
       <pointLight position={[10, 10, 10]} intensity={0.8} color="#40e0d0" />

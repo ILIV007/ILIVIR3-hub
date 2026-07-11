@@ -1,5 +1,5 @@
 import { Github, Send, Youtube, Instagram } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 export function Footer() {
   const { lang } = useLang();

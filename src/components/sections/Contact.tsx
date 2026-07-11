@@ -3,7 +3,7 @@ import { SectionTitle } from "@components/ui/SectionTitle";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { socials, contactEmail } from "@data/socials";
 import { Github, Send, Youtube, Mail, Instagram, ExternalLink } from "lucide-react";
-import { useLang } from "@context/LangContext";
+import { useLang } from "@context/useLang";
 
 const iconMap: Record<string, React.ReactNode> = {
   github: <Github className="w-5 h-5" />,
