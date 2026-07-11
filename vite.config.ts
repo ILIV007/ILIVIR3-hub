@@ -16,5 +16,19 @@ export default defineConfig({
       "@pages": path.resolve(__dirname, "./src/pages"),
     },
   },
-  build: { outDir: "dist" },
+  build: {
+    outDir: "dist",
+    target: "es2020",
+    chunkSizeWarningLimit: 700,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "three-vendor": ["three", "@react-three/fiber", "@react-three/drei"],
+          "motion-vendor": ["motion"],
+          "icons-vendor": ["lucide-react"],
+        },
+      },
+    },
+  },
 });

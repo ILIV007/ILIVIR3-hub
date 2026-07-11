@@ -1,21 +1,22 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { getProjectBySlug } from "@data/projects";
 import { Badge } from "@components/ui/Badge";
 import { Button } from "@components/ui/Button";
 import { GlassPanel } from "@components/ui/GlassPanel";
 import { Github, ExternalLink, ArrowLeft, ArrowRight, Bot, Tag } from "lucide-react";
-import { useEffect } from "react";
 import { useLang } from "@context/LangContext";
 
 export function ProjectDetails() {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
-  const { lang } = useLang();
+  const { lang, dir } = useLang();
   const project = getProjectBySlug(slug || "");
 
-  useEffect(() => { if (!project) navigate("/404"); }, [project, navigate]);
-  if (!project) return null;
+  // Render NotFound directly instead of redirecting to /404
+  if (!project) return <Navigate to="/404" replace />;
+
+  const backIcon = dir === "rtl" ? <ArrowRight className="w-3.5 h-3.5" /> : <ArrowLeft className="w-3.5 h-3.5" />;
+  const breadcrumbSep = dir === "rtl" ? <ArrowRight className="w-3 h-3" /> : <ArrowLeft className="w-3 h-3" />;
 
   return (
     <main className="pt-20 pb-16 px-4">
@@ -23,9 +24,9 @@ export function ProjectDetails() {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
           <div className="flex items-center gap-2 text-xs text-navy-600 mb-4">
             <Link to="/" className="hover:text-accent-cyan transition-colors">{lang === "fa" ? "خانه" : "Home"}</Link>
-            <ArrowLeft className="w-3 h-3" />
+            {breadcrumbSep}
             <Link to="/projects" className="hover:text-accent-cyan transition-colors">{lang === "fa" ? "پروژه‌ها" : "Projects"}</Link>
-            <ArrowLeft className="w-3 h-3" />
+            {breadcrumbSep}
             <span className="text-navy-400">{lang === "fa" ? project.titleFa : project.title}</span>
           </div>
 
@@ -48,9 +49,7 @@ export function ProjectDetails() {
           </GlassPanel>
 
           <div className="mt-6">
-            <Link to="/projects">
-              <Button variant="ghost" icon={<ArrowRight className="w-3.5 h-3.5" />} size="sm">{lang === "fa" ? "بازگشت" : "Back"}</Button>
-            </Link>
+            <Button to="/projects" variant="ghost" icon={backIcon} size="sm">{lang === "fa" ? "بازگشت" : "Back"}</Button>
           </div>
         </motion.div>
       </div>

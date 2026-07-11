@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { Button } from "@components/ui/Button";
-import { ArrowLeft, Orbit } from "lucide-react";
+import { ArrowLeft, ArrowRight, Orbit } from "lucide-react";
 import { useLang } from "@context/LangContext";
 
 export function NotFound() {
-  const { lang } = useLang();
+  const { lang, dir } = useLang();
+  const backIcon = dir === "rtl" ? <ArrowRight className="w-4 h-4" /> : <ArrowLeft className="w-4 h-4" />;
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
@@ -22,11 +22,9 @@ export function NotFound() {
         <p className="text-navy-400 text-lg mb-8">
           {lang === "fa" ? "صفحه مورد نظر یافت نشد" : "Page not found"}
         </p>
-        <Link to="/">
-          <Button icon={<ArrowLeft className="w-4 h-4" />}>
-            {lang === "fa" ? "بازگشت به خانه" : "Back to Home"}
-          </Button>
-        </Link>
+        <Button to="/" icon={backIcon}>
+          {lang === "fa" ? "بازگشت به خانه" : "Back to Home"}
+        </Button>
       </motion.div>
     </main>
   );

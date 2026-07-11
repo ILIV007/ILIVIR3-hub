@@ -16,16 +16,47 @@
   --color-accent-purple: #a855f7;
   --color-accent-cyan-dim: rgba(0, 229, 255, 0.08);
   --color-glow-purple-dim: rgba(168, 85, 247, 0.08);
+
+  --font-sans: "Inter", "Vazirmatn", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Vazirmatn", ui-monospace, monospace;
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     background-color: var(--color-deep-navy);
     color: white;
+    overflow-x: hidden;
   }
-  code, pre { font-family: 'JetBrains Mono', monospace; }
+  code, pre {
+    font-family: var(--font-mono);
+  }
+
+  /* Persian text uses Vazirmatn for better readability */
+  [lang="fa"] body,
+  [lang="fa"] h1,
+  [lang="fa"] h2,
+  [lang="fa"] h3,
+  [lang="fa"] h4,
+  [lang="fa"] p,
+  [lang="fa"] span,
+  [lang="fa"] a,
+  [lang="fa"] button {
+    font-family: "Vazirmatn", "Inter", system-ui, sans-serif;
+  }
+
+  /* When RTL, the layout direction flips automatically via dir="rtl" on <html>. */
+  [dir="rtl"] {
+    text-align: right;
+  }
+
+  /* Improve number rendering for Persian context */
+  [lang="fa"] .font-mono {
+    font-family: "JetBrains Mono", "Vazirmatn", monospace;
+  }
 }
 
 @layer utilities {
@@ -36,12 +67,49 @@
     background-clip: text;
   }
   .bg-grid-subtle {
-    background-image: 
+    background-image:
       linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
     background-size: 40px 40px;
   }
   .bg-radial-accent {
     background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 229, 255, 0.08), transparent);
+  }
+}
+
+/* Animations */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.7s ease both;
+}
+.animate-fade-in-up.delay-100 { animation-delay: 0.1s; }
+.animate-fade-in-up.delay-200 { animation-delay: 0.2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

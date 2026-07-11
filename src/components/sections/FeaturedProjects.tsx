@@ -11,14 +11,16 @@ const iconMap: Record<string, React.ReactNode> = {
   AI: <Bot className="w-5 h-5" />,
   Finance: <TrendingUp className="w-5 h-5" />,
   Game: <Gamepad2 className="w-5 h-5" />,
+  Web: <ExternalLink className="w-5 h-5" />,
 };
 
 export function FeaturedProjects() {
-  const { lang } = useLang();
+  const { lang, dir } = useLang();
   const featured = getFeatured();
+  const arrow = dir === "rtl" ? <ArrowRight className="w-3 h-3 rotate-180" /> : <ArrowRight className="w-3 h-3" />;
 
   return (
-    <section className="relative py-20 px-4">
+    <section id="projects" className="relative py-20 px-4 scroll-mt-20">
       <div className="max-w-6xl mx-auto">
         <SectionTitle
           title={lang === "fa" ? "پروژه‌های برتر" : "Featured Projects"}
@@ -34,52 +36,70 @@ export function FeaturedProjects() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <Link to={`/project/${project.slug}`}>
-                <Card className="h-full flex flex-col group">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-accent-cyan-dim text-accent-cyan">
-                        {iconMap[project.category] || <Bot className="w-5 h-5" />}
-                      </div>
-                      <Badge variant={project.status === "Active" ? "active" : "beta"}>
-                        {project.status}
-                      </Badge>
+              <Card className="relative h-full flex flex-col group">
+                <Link
+                  to={`/project/${project.slug}`}
+                  aria-label={lang === "fa" ? project.titleFa : project.title}
+                  className="absolute inset-0 z-[1] rounded-xl"
+                />
+
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-accent-cyan-dim text-accent-cyan">
+                      {iconMap[project.category] || <Bot className="w-5 h-5" />}
                     </div>
-                    <span className="text-xs text-navy-500 font-mono">{project.category}</span>
+                    <Badge variant={project.status === "Active" ? "active" : "beta"}>
+                      {project.status}
+                    </Badge>
                   </div>
+                  <span className="text-xs text-navy-500 font-mono">{project.category}</span>
+                </div>
 
-                  <h3 className="text-lg font-bold text-white mb-1.5 group-hover:text-accent-cyan transition-colors">
-                    {lang === "fa" ? project.titleFa : project.title}
-                  </h3>
-                  <p className="text-navy-400 text-sm leading-relaxed mb-4 flex-grow">
-                    {lang === "fa" ? project.shortDescFa : project.shortDesc}
-                  </p>
+                <h3 className="text-lg font-bold text-white mb-1.5 group-hover:text-accent-cyan transition-colors">
+                  {lang === "fa" ? project.titleFa : project.title}
+                </h3>
+                <p className="text-navy-400 text-sm leading-relaxed mb-4 flex-grow">
+                  {lang === "fa" ? project.shortDescFa : project.shortDesc}
+                </p>
 
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.tags.slice(0, 3).map((tag) => (
-                      <span key={tag} className="text-xs px-2 py-0.5 rounded bg-white/5 text-navy-400 border border-white/5">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-3 border-t border-white/5">
-                    {project.github && (
-                      <a href={project.github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-navy-500 hover:text-white transition-colors" title="GitHub">
-                        <Github className="w-4 h-4" />
-                      </a>
-                    )}
-                    {project.demo && (
-                      <a href={project.demo} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="text-navy-500 hover:text-accent-cyan transition-colors" title="Demo">
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                    <span className="ml-auto text-accent-cyan text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {lang === "fa" ? "جزئیات" : "Details"} <ArrowRight className="w-3 h-3" />
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {project.tags.slice(0, 3).map((tag) => (
+                    <span key={tag} className="text-xs px-2 py-0.5 rounded bg-white/5 text-navy-400 border border-white/5">
+                      {tag}
                     </span>
-                  </div>
-                </Card>
-              </Link>
+                  ))}
+                </div>
+
+                <div className="flex items-center gap-3 pt-3 border-t border-white/5">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative z-[2] text-navy-500 hover:text-white transition-colors"
+                      title="GitHub"
+                      aria-label="GitHub repository"
+                    >
+                      <Github className="w-4 h-4" />
+                    </a>
+                  )}
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative z-[2] text-navy-500 hover:text-accent-cyan transition-colors"
+                      title="Demo"
+                      aria-label="Live demo"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                  <span className="ml-auto text-accent-cyan text-xs flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    {lang === "fa" ? "جزئیات" : "Details"} {arrow}
+                  </span>
+                </div>
+              </Card>
             </motion.div>
           ))}
         </div>

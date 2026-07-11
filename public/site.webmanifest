@@ -1,10 +1,13 @@
 {
-  "name": "ILIVIR3",
+  "name": "ILIVIR3 — Tech Command Center",
   "short_name": "ILIVIR3",
-  "description": "Tech Command Center",
+  "description": "AI Systems, Open Source & Experimental Tech by ILIV007",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#050816",
   "theme_color": "#050816",
-  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+  "lang": "en",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
 }

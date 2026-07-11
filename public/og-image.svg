@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050816" />
+      <stop offset="100%" stop-color="#0f1528" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00e5ff" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="600" cy="200" r="280" fill="url(#glow)" />
+  <circle cx="600" cy="200" r="90" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.5" />
+  <circle cx="600" cy="200" r="55" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.8" />
+  <circle cx="600" cy="200" r="20" fill="url(#accent)" />
+  <text x="600" y="400" text-anchor="middle" font-family="Inter, sans-serif" font-size="96" font-weight="900" fill="url(#accent)">ILIVIR3</text>
+  <text x="600" y="460" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="28" font-weight="500" fill="#5a6a8a" letter-spacing="3">TECH COMMAND CENTER</text>
+  <text x="600" y="540" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" fill="#8a9aaa">AI Systems · Open Source · Experimental Tech</text>
+</svg>
