@@ -1,6 +1,6 @@
 {
   "name": "ilivir3-hub",
-  "version": "11.2.0",
+  "version": "11.3.0",
   "private": true,
   "description": "ILIVIR3 — Tech Command Center. Central portal for the ILIVIR3 Telegram bot ecosystem.",
   "type": "module",
@@ -9,9 +9,10 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "prebuild": "node scripts/cleanup-stale.mjs",
+    "build": "node scripts/cleanup-stale.mjs && tsc && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "node scripts/cleanup-stale.mjs && tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",

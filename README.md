@@ -5,7 +5,7 @@
 [![Cloudflare Pages](https://img.shields.io/badge/Cloudflare-F69652?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Telegram Bot](https://img.shields.io/badge/Telegram-ILIVIR3-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ILIVIR3)
 [![GitHub](https://img.shields.io/badge/GitHub-ILIV007-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ILIV007/ILIVIR3-hub)
-![Version](https://img.shields.io/badge/Version-11.2-blue?style=flat-square)
+![Version](https://img.shields.io/badge/Version-11.3-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
 ---
@@ -201,6 +201,12 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ---
 
 ## 📦 Changelog
+
+### v11.3.0 — Deploy Fix
+
+- **CRITICAL**: Added `prebuild` script that automatically removes stale files from previous versions before `tsc` runs. This fixes the Cloudflare Pages deploy failure caused by old files (Hero.tsx, AIBots.tsx, etc.) persisting when a new zip is extracted over an old checkout.
+- The `cleanup-stale.mjs` script is idempotent — safe to run even if files are already gone.
+- Both `build` and `typecheck` scripts now run cleanup first.
 
 ### v11.2.0 — Wormhole 404 + Polish
 

@@ -1,77 +1,68 @@
-# ⚠️ CLEANUP — Required before pushing v11.2
+# ⚠️ CLEANUP — Stale file handling
 
-When you extract the v11 zip on top of an existing repository, files that we
-deleted in the new version **stay on disk** and will still be compiled by
-`tsc`, causing build errors like:
+## ✅ v11.3.0+ — Automatic cleanup (no action needed)
+
+Starting from v11.3.0, the project includes a `prebuild` script that
+**automatically deletes stale files** from previous versions before `tsc` runs.
+
+This means: **you can safely extract the new zip on top of an old checkout**
+without manually deleting anything. The build will clean up for you.
+
+### How it works
+
+- `package.json` has `"prebuild": "node scripts/cleanup-stale.mjs"`
+- npm automatically runs `prebuild` before `build`
+- The `build` script also explicitly runs cleanup first: `"build": "node scripts/cleanup-stale.mjs && tsc && vite build"`
+- The cleanup script (`scripts/cleanup-stale.mjs`) is idempotent — safe to run multiple times
+
+### Files it removes
 
 ```
-src/components/Hero.tsx(33,24): error TS2322: ...
-src/components/sections/AIBots.tsx(8,10): error TS2305: ...
-src/components/sections/Projects.tsx(10,10): error TS2305: ...
-src/components/sections/Telegram.tsx(6,10): error TS2305: ...
+src/components/Hero.tsx              (old prototype)
+src/components/sections/AIBots.tsx   (replaced by AISystems.tsx)
+src/components/sections/Projects.tsx (replaced by pages/Projects.tsx)
+src/components/sections/Telegram.tsx (replaced by TelegramCTA.tsx)
+src/components/sections/LiveStats.tsx
+src/components/three/Galaxy.tsx
+src/components/three/Planet.tsx
+src/components/three/EnergyCore.tsx
+src/components/three/Stars.tsx
+src/hooks/useTheme.ts
+src/hooks/useParallax.ts
+src/hooks/useMouseParallax.ts
+src/hooks/useScroll.ts
+src/lib/utils.ts
+src/router/index.tsx
+src/styles/animations.css
+src/styles/neon.css
+src/data/stats.ts
+tailwind.config.js
+src/vite-env.d.ts
 ```
 
-## ✅ The fix — delete these stale files before pushing
+Plus the now-empty `src/lib` and `src/router` directories.
 
-Run these commands in your project root (after extracting the zip):
+## 🛠️ Manual cleanup (only if you skipped the prebuild)
+
+If for some reason the prebuild script doesn't run (e.g. you ran `tsc` directly),
+you can clean up manually:
 
 ```bash
-# Delete stale files that no longer exist in v11.2
-rm -f src/components/Hero.tsx
-rm -f src/components/sections/AIBots.tsx
-rm -f src/components/sections/Projects.tsx
-rm -f src/components/sections/Telegram.tsx
-rm -f src/components/sections/LiveStats.tsx
-rm -f src/components/three/Galaxy.tsx
-rm -f src/components/three/Planet.tsx
-rm -f src/components/three/EnergyCore.tsx
-rm -f src/components/three/Stars.tsx
-rm -f src/hooks/useTheme.ts
-rm -f src/hooks/useParallax.ts
-rm -f src/hooks/useMouseParallax.ts
-rm -f src/hooks/useScroll.ts
-rm -f src/lib/utils.ts
-rm -f src/router/index.tsx
-rm -f src/styles/animations.css
-rm -f src/styles/neon.css
-rm -f src/data/stats.ts
-rm -f tailwind.config.js
-rm -f src/vite-env.d.ts
+node scripts/cleanup-stale.mjs
+```
 
-# Remove empty directories
+Or with shell commands:
+
+```bash
+rm -f src/components/Hero.tsx \
+      src/components/sections/{AIBots,Projects,Telegram,LiveStats}.tsx \
+      src/components/three/{Galaxy,Planet,EnergyCore,Stars}.tsx \
+      src/hooks/{useTheme,useParallax,useMouseParallax,useScroll}.ts \
+      src/lib/utils.ts \
+      src/router/index.tsx \
+      src/styles/{animations,neon}.css \
+      src/data/stats.ts \
+      tailwind.config.js \
+      src/vite-env.d.ts
 rmdir src/lib src/router 2>/dev/null || true
 ```
-
-## 🛡️ Safer alternative — fresh clone
-
-The cleanest way is to start fresh:
-
-```bash
-# On your machine
-git clone https://github.com/ILIV007/ILIVIR3-hub.git ilivir3-fresh
-cd ilivir3-fresh
-
-# Delete everything inside (keeps .git folder)
-find . -mindepth 1 -maxdepth 1 -not -name '.git' -exec rm -rf {} +
-
-# Now extract the v11.2 zip contents into this folder
-unzip ~/Downloads/ILIVIR3-hub.zip -d .
-mv ILIVIR3-hub/* ILIVIR3-hub/.* . 2>/dev/null || true
-rmdir ILIVIR3-hub
-
-# Commit and push
-git add -A
-git commit -m "v11.2 — wormhole 404 + emoji favicon + cleanup"
-git push origin main
-```
-
-This guarantees no stale files remain.
-
-## 📝 Why this happened
-
-`unzip` does **not** delete files that aren't in the archive — it only
-overwrites/creates files that *are* in the archive. So files we removed in
-v11.0+ persist if you extract on top of an old working copy.
-
-The cleanup commands above are idempotent — safe to run even if the files
-are already gone.
